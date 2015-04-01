@@ -3,6 +3,7 @@ import java.io.*;
 
 class CLL{
 	public static void main(String args[]) throws Exception {
+		File f;
         Scanner s;
         Interpretador b;
         String linhas[] = new String[2000];
