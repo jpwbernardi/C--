@@ -58,15 +58,10 @@ class Interpretador{
                 String[] tokens = this.divide(linhas[i]);
                 
                 int operacao = Integer.parseInt(tokens[(tokens.length) - 1]);
-                
-                
-                /*for(String x: tokens)
-					System.out.println(x);
-					
-				System.out.println("Operação = " + operacao);*/
+                if(Simbolos.pertence(tokens[0]) > 0) operacao = Simbolos.pertence(tokens[0]);
 				
 				switch(operacao){
-					case 1:
+					case 1:								//Atribuição
 						atribuir.atribuirValor(tokens);
 						break;
 				}

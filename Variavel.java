@@ -1,4 +1,5 @@
 public class Variavel<KeyType, ValueType> {
+	
     private final KeyType key;
     public ValueType value;
 
