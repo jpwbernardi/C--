@@ -1,5 +1,20 @@
+import java.util.*;
+
 class Interpretador{
 	private String linhas[];
+	HashMap<String, Variavel> vars;
+
+	public Interpretador(){
+		vars = new HashMap<String, Variavel>();
+	}
+
+	public void novaVar(String nome, Variavel valor){
+		this.vars.put(nome, valor);
+	}
+
+	public Variavel getVar(String n) {
+		return this.vars.get(n);
+	}
 
     public void interpreta(String l[]) {
         this.linhas = l;
