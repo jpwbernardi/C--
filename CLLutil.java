@@ -3,7 +3,7 @@ import java.util.Stack;
 public class CLLutil{
 
     public static String shuntingYard(String infix) {
-        final String ops = "-+/*^";
+        final String ops = "-+/*%^";
         StringBuilder sb = new StringBuilder();
         Stack<Integer> s = new Stack<>();
 
@@ -52,13 +52,16 @@ public class CLLutil{
 		int pot = 1, i;
         for(i = 0; i < n.length() && n.charAt(i) != ' '; i++);
 		for(i--; i >= 0 && n.charAt(i) != ' '; i--){
-			if(n.charAt(i) != '.'){
+			if((n.charAt(i) >= '0') && (n.charAt(i) <= '9')){
 				ret += (n.charAt(i) - '0') * pot;
 				pot *= 10;
-			}else{
+			}else if(n.charAt(i) == '-'){
+                ret *= -1;
+            }else{
 				ret /= pot;
 				pot = 1;
 			}
+            //System.out.println("toDouble i: " + i + "      ret: " + ret);
 		}
 		return ret;
     }
