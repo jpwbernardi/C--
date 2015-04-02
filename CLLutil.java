@@ -1,0 +1,72 @@
+import java.util.Stack;
+
+public class CLLutil{
+
+    public static String shuntingYard(String infix) {
+        final String ops = "-+/*^";
+        StringBuilder sb = new StringBuilder();
+        Stack<Integer> s = new Stack<>();
+
+        for (String token : infix.split("\\s")) {
+            if (token.isEmpty())
+                continue;
+            char c = token.charAt(0);
+            int idx = ops.indexOf(c);
+
+            // check for operator
+            if (idx != -1) {
+                if (s.isEmpty())
+                    s.push(idx);
+
+                else {
+                    while (!s.isEmpty()) {
+                        int prec2 = s.peek() / 2;
+                        int prec1 = idx / 2;
+                        if (prec2 > prec1 || (prec2 == prec1 && c != '^'))
+                            sb.append(ops.charAt(s.pop())).append(' ');
+                        else break;
+                    }
+                    s.push(idx);
+                }
+            }
+            else if (c == '(') {
+                s.push(-2); // -2 stands for '('
+            }
+            else if (c == ')') {
+                // until '(' on stack, pop operators.
+                while (s.peek() != -2)
+                    sb.append(ops.charAt(s.pop())).append(' ');
+                s.pop();
+            }
+            else {
+                sb.append(token).append(' ');
+            }
+        }
+        while (!s.isEmpty())
+            sb.append(ops.charAt(s.pop())).append(' ');
+        return sb.toString();
+    }
+
+    public static double toDouble(String n){
+        double ret = 0;
+		int pot = 1, i;
+        for(i = 0; i < n.length() && n.charAt(i) != ' '; i++);
+		for(i--; i >= 0 && n.charAt(i) != ' '; i--){
+			if(n.charAt(i) != '.'){
+				ret += (n.charAt(i) - '0') * pot;
+				pot *= 10;
+			}else{
+				ret /= pot;
+				pot = 1;
+			}
+		}
+		return ret;
+    }
+
+    public static boolean operadores(String n){
+        for(int i = 0; i < n.length(); i++)
+            if(Simbolos.pertence(n.charAt(i) + "") > 0) return true;
+        return false;
+    }
+
+}
