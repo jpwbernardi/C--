@@ -17,7 +17,7 @@ class Atribuicao{
 			//System.out.println(n);
 
 			//posição 0 sempre vai ter um numero ou sinal, não preciso me "preocupar"
-			for(i = 1; i < n.length(); i++){
+			for(i = 0; i < n.length(); i++){
 				if(n.charAt(i) == ' '){
 					if(x1 != 0){
 						x0ant = x0;
@@ -61,7 +61,9 @@ class Atribuicao{
 			}
 			//System.out.println("4");
 			if(i + 1 < n.length()) i++;
-			n = n.replace(n.substring(x0, i), aux.toString());
+			String tmp = aux.toString();
+			if(aux < 0) tmp = tmp.replace('-', 'u');
+			n = n.replace(n.substring(x0, i), tmp);
 			//System.out.println("5");
 		}
 
