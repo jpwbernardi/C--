@@ -64,6 +64,7 @@ class Interpretador{
 		sequencia.add("" + ret);
 		String[] t = new String[sequencia.size()];
 		sequencia.toArray(t);
+
 		return t;
 	}
 

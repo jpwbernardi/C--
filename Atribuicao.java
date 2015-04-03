@@ -70,13 +70,16 @@ class Atribuicao{
 	}
 
 	public void atribuirValor(String[] tokens){
-		String nTokens = new String("");
+		String nTokens = CLLutil.agrupa(Arrays.copyOfRange(tokens, 3, tokens.length - 2));
+		/*String nTokens = new String("");
+
+
 		for(int i = 3; i < tokens.length - 2; i++){
 			if(i > 3) nTokens = nTokens + " ";
 			if(tokens[i].charAt(0) == '-' && tokens[i].length() > 1) tokens[i] = tokens[i].replace('-', 'u');
 			nTokens = nTokens + tokens[i];
-		}
-	//	System.out.println(nTokens);
+		}*/
+		System.out.println(nTokens);
 
 		double r = this.calcula(nTokens);
 		//System.out.println("7");

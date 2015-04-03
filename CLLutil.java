@@ -74,4 +74,14 @@ public class CLLutil{
         return false;
     }
 
+    public static String agrupa(String[] a){
+        String ret = new String("");
+        for(int i = 0; i < a.length; i++){
+			if(i > 0) ret += " ";
+			if(a[i].charAt(0) == '-' && a[i].length() > 1) a[i] = a[i].replace('-', 'u');
+			ret +=  a[i];
+		}
+        return ret;
+    }
+
 }
