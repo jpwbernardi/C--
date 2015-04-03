@@ -35,6 +35,7 @@ class Interpretador{
 		int i, ret = 0;
 		int flag = 1; //ultima quebra foi em um Simbolo ? 1 : 0
 
+		//Forma mais simples que achei de consertar valores negativos!!! (tentar melhorar)
 		for(i = 0; i < quebrado.length; i++){
 			if(aux == null) aux = new String("");
 			if(quebrado[i].equals(" ") && (aux.equals("") == false)){
@@ -73,20 +74,35 @@ class Interpretador{
             if(this.linhas[i] != null) {
 				//System.out.println("1o ->" + linhas[i]);
                 String[] tokens = this.divide(linhas[i]);
-				for(String x : tokens){
+				/*for(String x : tokens){
 					System.out.println(x);
-				}
+				}*/
 
                 int operacao = Integer.parseInt(tokens[(tokens.length) - 1]); //Ultima posição da string guarda a primeira operação encontrada;
 
                 if(operacao != 2){ //Se não for uma atribuição
-
+					operacao = Simbolos.pertence(tokens[0]);	//Verifica qual é a primeira palavra
 				}
 
 				switch(operacao){
+					case 1:
+						System.out.println("Só operações matematicas... algo errado");
+						break;
 					case 2:								//Atribuição
 						atribuir.atribuirValor(tokens);
 						break;
+					case 3:
+						System.out.println("Tem um if!!");
+						break;
+					case 4:
+						System.out.println("Tem um loop!!");
+						break;
+					case 5:
+						System.out.println("Tem uma declaracao!!");
+						break;
+					case 10:
+						System.out.println("So ponto e virgula.... algo errado");
+
 				}
 
 
