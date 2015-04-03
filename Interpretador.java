@@ -26,22 +26,38 @@ class Interpretador{
 		ArrayList<String> sequencia = new ArrayList<String>();
 
 		String[] quebrado = n.split("");		//Quebra string n e guarda em quebrado
+		/*for(String x : quebrado){
+			System.out.println(x);
+		}*/
+
 		String aux = null;
 
 		int i, ret = 0;
+		int flag = 1; //ultima quebra foi em um Simbolo ? 1 : 0
 
 		for(i = 0; i < quebrado.length; i++){
 			if(aux == null) aux = new String("");
 			if(quebrado[i].equals(" ") && (aux.equals("") == false)){
-				sequencia.add(aux);
-				aux = null;
+				if(flag != 1 && aux.equals("-") == false){
+					sequencia.add(aux);
+					aux = null;
+				}
 			}else if(Simbolos.pertence(quebrado[i]) > 0){
-				if(ret == 0) ret = Simbolos.pertence(quebrado[i]);
-				if(aux.equals("") == false) sequencia.add(aux);
-				sequencia.add(quebrado[i]);
-				aux = null;
+				if(ret == 0) ret = Simbolos.pertence(quebrado[i]);		//Pega o primeiro valor de simbolo que encontrou
+				if(quebrado[i].equals("-") == false || flag == 0){
+					if(aux.equals("") == false) sequencia.add(aux);
+					sequencia.add(quebrado[i]);
+					aux = null;
+				}else{
+					if(aux.equals("") == false) sequencia.add(aux);
+					if(flag == 1) aux = new String(quebrado[i] + "");
+				}
+				if(quebrado[i].equals(")") == false && quebrado[i].equals(")") == false){
+					flag = 1;
+				}
 			}else if(quebrado[i].equals(" ") == false){
 				aux += quebrado[i];
+				flag = 0;
 			}
 		}
 		sequencia.add("" + ret);
@@ -55,13 +71,20 @@ class Interpretador{
 
         for(int i = 0; i < this.linhas.length; i++) {
             if(this.linhas[i] != null) {
+				//System.out.println("1o ->" + linhas[i]);
                 String[] tokens = this.divide(linhas[i]);
+				for(String x : tokens){
+					System.out.println(x);
+				}
 
-                int operacao = Integer.parseInt(tokens[(tokens.length) - 1]);
-                if(Simbolos.pertence(tokens[0]) > 0) operacao = Simbolos.pertence(tokens[0]);
+                int operacao = Integer.parseInt(tokens[(tokens.length) - 1]); //Ultima posição da string guarda a primeira operação encontrada;
+
+                if(operacao != 2){ //Se não for uma atribuição
+
+				}
 
 				switch(operacao){
-					case 1:								//Atribuição
+					case 2:								//Atribuição
 						atribuir.atribuirValor(tokens);
 						break;
 				}

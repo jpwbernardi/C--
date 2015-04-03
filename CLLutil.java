@@ -47,7 +47,7 @@ public class CLLutil{
         return sb.toString();
     }
 
-    public static double toDouble(String n){
+    public static Double toDouble(String n){
         double ret = 0;
 		int pot = 1, i;
         for(i = 0; i < n.length() && n.charAt(i) != ' '; i++);
@@ -55,12 +55,14 @@ public class CLLutil{
 			if((n.charAt(i) >= '0') && (n.charAt(i) <= '9')){
 				ret += (n.charAt(i) - '0') * pot;
 				pot *= 10;
-			}else if(n.charAt(i) == '-'){
+			}else if(n.charAt(i) == 'u' || n.charAt(i) == '-'){
                 ret *= -1;
-            }else{
+            }else if(n.charAt(i) == '.'){
 				ret /= pot;
 				pot = 1;
-			}
+			}else{
+                return null;
+            }
             //System.out.println("toDouble i: " + i + "      ret: " + ret);
 		}
 		return ret;

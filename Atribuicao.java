@@ -8,15 +8,16 @@ class Atribuicao{
 
 		n = CLLutil.shuntingYard(n);
 
-		//System.out.println(n);
-		//System.out.println("1");
+		System.out.println(n);
+		System.out.println("1");
 		while(CLLutil.operadores(n) && (n.length() > 1 ? CLLutil.operadores(n.substring(1)) : true)){ //Enquanto há operadores
 			int x0ant = 0;
 			int x0 = 0, x1 = 0; //x0 -> posição inicial do primeiro numero   x1 -> posição inicial do segundo numero
 
 			//System.out.println(n);
 
-			for(i = 0; i < n.length(); i++){
+			//posição 0 sempre vai ter um numero ou sinal, não preciso me "preocupar"
+			for(i = 1; i < n.length(); i++){
 				if(n.charAt(i) == ' '){
 					if(x1 != 0){
 						x0ant = x0;
@@ -72,11 +73,14 @@ class Atribuicao{
 		String nTokens = new String("");
 		for(int i = 3; i < tokens.length - 2; i++){
 			if(i > 3) nTokens = nTokens + " ";
+			if(tokens[i].charAt(0) == '-' && tokens[i].length() > 1) tokens[i] = tokens[i].replace('-', 'u');
 			nTokens = nTokens + tokens[i];
 		}
+	//	System.out.println(nTokens);
+
 		double r = this.calcula(nTokens);
 		//System.out.println("7");
-		//System.out.println("->>>" + r);
+		System.out.println("->>>" + r);
 		/*inteiro.value = calcula(Arrays.copyOfRange(tokens, 3, tokens.length - 2));
 		Interpretador.novaVar(inteiro.getKey(), inteiro);*/
 
