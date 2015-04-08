@@ -38,6 +38,7 @@ class Interpretador{
 		//Forma mais simples que achei de consertar valores negativos!!! (tentar melhorar)
 		for(i = 0; i < quebrado.length; i++){
 			if(aux == null) aux = new String("");
+			if(flag == 1 && quebrado[i].equals("+")) continue;	//Se o ultimo foi um sinal (operador) e o atual é +, ignora;
 			if(quebrado[i].equals(" ") && (aux.equals("") == false)){
 				if(flag != 1 && aux.equals("-") == false){
 					sequencia.add(aux);
@@ -45,7 +46,12 @@ class Interpretador{
 				}
 			}else if(Simbolos.pertence(quebrado[i]) > 0){
 				if(ret == 0) ret = Simbolos.pertence(quebrado[i]);		//Pega o primeiro valor de simbolo que encontrou
-				if(quebrado[i].equals("-") == false || flag == 0){
+				if(quebrado[i].equals("(") && aux.equals("-")){
+						sequencia.add("-1");
+						sequencia.add("*");
+						sequencia.add(quebrado[i]);
+						aux = null;
+				}else if(quebrado[i].equals("-") == false || flag == 0){
 					if(aux.equals("") == false) sequencia.add(aux);
 					sequencia.add(quebrado[i]);
 					aux = null;
@@ -105,7 +111,7 @@ class Interpretador{
 						System.out.println("So ponto e virgula.... algo errado");
 
 				}
-
+				
 
             }
         }
