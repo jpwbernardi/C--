@@ -3,7 +3,7 @@ import java.util.*;
 class Atribuicao{
 	private Variavel<String, Integer> inteiro;
 
-	private double calcula(String n){
+	public Double calcula(String n){
 		int i;
 
 		n = CLLutil.shuntingYard(n);
@@ -62,7 +62,7 @@ class Atribuicao{
 			//System.out.println("4");
 			if(i + 1 < n.length()) i++;
 			String tmp = aux.toString();
-			if(aux < 0) tmp = tmp.replace('-', 'u');
+			if(aux < 0) tmp = tmp.replace('-', '|');
 			n = n.replace(n.substring(x0, i), tmp);
 			//System.out.println("5");
 		}
@@ -72,7 +72,7 @@ class Atribuicao{
 	}
 
 	public void atribuirValor(String[] tokens){
-		String nTokens = CLLutil.agrupa(Arrays.copyOfRange(tokens, 3, tokens.length - 2));
+		String nTokens = CLLutil.agrupa(tokens, 3, tokens.length - 2);
 		/*String nTokens = new String("");
 
 

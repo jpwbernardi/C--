@@ -3,6 +3,7 @@ import java.util.*;
 class Interpretador{
 
 	Atribuicao atribuir;
+	If se;
 	String linhas[];
 
 
@@ -12,6 +13,7 @@ class Interpretador{
 	public Interpretador(){
 		vars = new HashMap<String, Variavel>();
 		atribuir = new Atribuicao();
+		se = new If();
 	}
 
 	public static void novaVar(String nome, Variavel valor){
@@ -47,10 +49,10 @@ class Interpretador{
 			}else if(Simbolos.pertence(quebrado[i]) > 0){
 				if(ret == 0) ret = Simbolos.pertence(quebrado[i]);		//Pega o primeiro valor de simbolo que encontrou
 				if(quebrado[i].equals("(") && aux.equals("-")){
-						sequencia.add("-1");
-						sequencia.add("*");
-						sequencia.add(quebrado[i]);
-						aux = null;
+					sequencia.add("-1");
+					sequencia.add("*");
+					sequencia.add(quebrado[i]);
+					aux = null;
 				}else if(quebrado[i].equals("-") == false || flag == 0){
 					if(aux.equals("") == false) sequencia.add(aux);
 					sequencia.add(quebrado[i]);
@@ -100,6 +102,7 @@ class Interpretador{
 						break;
 					case 3:
 						System.out.println("Tem um if!!");
+						System.out.println(se.percorre(Arrays.copyOfRange(tokens, 1, tokens.length), 0));
 						break;
 					case 4:
 						System.out.println("Tem um loop!!");

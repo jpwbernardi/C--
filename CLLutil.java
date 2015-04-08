@@ -55,7 +55,7 @@ public class CLLutil{
 			if((n.charAt(i) >= '0') && (n.charAt(i) <= '9')){
 				ret += (n.charAt(i) - '0') * pot;
 				pot *= 10;
-			}else if(n.charAt(i) == 'u' || n.charAt(i) == '-'){
+			}else if(n.charAt(i) == '|' || n.charAt(i) == '-'){
                 ret *= -1;
             }else if(n.charAt(i) == '.'){
 				ret /= pot;
@@ -74,12 +74,28 @@ public class CLLutil{
         return false;
     }
 
-    public static String agrupa(String[] a){
+    public static String agrupa(String[] a, int ini, int fim){
         String ret = new String("");
-        for(int i = 0; i < a.length; i++){
-			if(i > 0) ret += " ";
-			if(a[i].charAt(0) == '-' && a[i].length() > 1) a[i] = a[i].replace('-', 'u');
-			ret +=  a[i];
+        Interpretador b = new Interpretador();
+        for(int i = ini; i < fim; i++){
+			if(i > ini) ret += " ";
+			
+			
+			/*Double aux = CLLutil.toDouble(a[i]);
+			Object oi;
+			oi = Interpretador.getVar(a[i].substring(1));
+			
+			System.out.println(oi.toString());*/
+			
+			if(a[i].charAt(0) == '-' && a[i].length() > 1) a[i] = a[i].replace('-', '|');
+			/*if(aux == null && Simbolos.pertence(a[i]) < 0){
+				if(a[i].charAt(0) == '|') ret += "-" + Interpretador.getVar(a[i].substring(1)).toString();
+				ret +=  Interpretador.getVar(a[i].substring(1)).toString();
+			}else{*/
+				ret +=  a[i];
+			//}
+			
+			
 		}
         return ret;
     }
