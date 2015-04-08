@@ -10,6 +10,7 @@ class Interpretador{
 
 
 	public Interpretador(){
+		vars = new HashMap<String, Variavel>();
 		atribuir = new Atribuicao();
 	}
 

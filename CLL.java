@@ -30,7 +30,7 @@ class CLL{
 		System.out.println(b.getVar("caca").value);
 		System.out.println(b.getVar("lala").value);
 		System.out.println(b.getVar("s").value);
-		//System.out.println(b.getVar("Ola").value);
+		//System.out.println(b.getVar("Ola").value);*/
 
     }
 }
