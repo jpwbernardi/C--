@@ -6,10 +6,10 @@ class Atribuicao{
 	public Double calcula(String n){
 		int i;
 
-		n = CLLutil.shuntingYard(n);
-
 		System.out.println(n);
-		System.out.println("1");
+		n = CLLutil.shuntingYard(n);
+		System.out.println(n);
+
 		while(CLLutil.operadores(n) && (n.length() > 1 ? CLLutil.operadores(n.substring(1)) : true)){ //Enquanto há operadores
 			int x0ant = 0;
 			int x0 = 0, x1 = 0; //x0 -> posição inicial do primeiro numero   x1 -> posição inicial do segundo numero

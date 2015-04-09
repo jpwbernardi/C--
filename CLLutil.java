@@ -77,9 +77,9 @@ public class CLLutil{
     public static String agrupa(String[] a, int ini, int fim){
         String ret = new String("");
         Interpretador b = new Interpretador();
-        for(int i = ini; i < fim; i++){
+        for(int i = ini; i <= fim; i++){
 			if(i > ini) ret += " ";
-			
+			if(a[i].equals(" ")) continue;
 			
 			/*Double aux = CLLutil.toDouble(a[i]);
 			Object oi;

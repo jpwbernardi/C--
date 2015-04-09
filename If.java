@@ -23,8 +23,8 @@ class If{
 			 return CLLutil.toDouble(expressao[i - 1]);
 		 }
 		else {
-			expressao[i - 1] = a.calcula(CLLutil.agrupa(expressao, inic, i - 1)).toString();
-			expressao[i + 1] = a.calcula(CLLutil.agrupa(expressao, i + 1, fim)).toString();
+			expressao[i - 1] = a.calcula(CLLutil.agrupa(expressao, inic + 1, i - 1)).toString();
+			expressao[i + 1] = a.calcula(CLLutil.agrupa(expressao, i + 1, fim - 1)).toString();
 		}
 		switch(k){
 			case 6:

@@ -11,7 +11,7 @@ class Simbolos{
 		else if(n.equals("MENORI")) return 9;
 		else if(n.equals("IGUAL")) return 10;
 		else if(n.equals("DIF")) return 11;
-		else if(n.equals("E")) return 12;
+		else if(n.equals("EE")) return 12;
 		else if(n.equals("OU")) return 13;
 		else if(n.equals(";")) return 14;
 		else return -1;
