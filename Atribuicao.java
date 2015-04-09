@@ -6,9 +6,9 @@ class Atribuicao{
 	public Double calcula(String n){
 		int i;
 
-		System.out.println(n);
+		//System.out.println(n);
 		n = CLLutil.shuntingYard(n);
-		System.out.println(n);
+		//System.out.println(n);
 
 		while(CLLutil.operadores(n) && (n.length() > 1 ? CLLutil.operadores(n.substring(1)) : true)){ //Enquanto há operadores
 			int x0ant = 0;
@@ -80,8 +80,8 @@ class Atribuicao{
 			if(i > 3) nTokens = nTokens + " ";
 			if(tokens[i].charAt(0) == '-' && tokens[i].length() > 1) tokens[i] = tokens[i].replace('-', 'u');
 			nTokens = nTokens + tokens[i];
-		}*/
-		System.out.println(nTokens);
+		}
+		System.out.println(nTokens);*/
 
 		double r = this.calcula(nTokens);
 		//System.out.println("7");

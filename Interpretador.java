@@ -90,11 +90,11 @@ class Interpretador{
             if(this.linhas[i] != null) {
 				//System.out.println("1o ->" + linhas[i]);
                 String[] tokens = this.divide(linhas[i]);
-                System.out.println("-------------");
+                /*System.out.println("-------------");
 				for(String x : tokens){
 					System.out.println(x);
 				}
-				System.out.println("-------------");
+				System.out.println("-------------");*/
 
                 int operacao = Integer.parseInt(tokens[(tokens.length) - 1]); //Ultima posição da string guarda a primeira operação encontrada;
 
@@ -123,7 +123,7 @@ class Interpretador{
 						System.out.println("So ponto e virgula.... algo errado");
 
 				}
-				
+
 
             }
         }
