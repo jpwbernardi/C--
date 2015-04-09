@@ -46,7 +46,7 @@ class Interpretador{
 					sequencia.add(aux);
 					aux = null;
 				}
-				System.out.println("1");
+				//System.out.println("1");
 			}else if(Simbolos.pertence(quebrado[i]) > 0){
 				if(ret == 0) ret = Simbolos.pertence(quebrado[i]);		//Pega o primeiro valor de simbolo que encontrou
 				if(quebrado[i].equals("(") && aux.equals("-")){
@@ -54,27 +54,27 @@ class Interpretador{
 					sequencia.add("*");
 					sequencia.add(quebrado[i]);
 					aux = null;
-					System.out.println("2");
+					//System.out.println("2");
 				}else if(quebrado[i].equals("-") == false || flag == 0){
 					if(aux.equals("") == false) sequencia.add(aux);
 					sequencia.add(quebrado[i]);
 					aux = null;
-					System.out.println("3");
+					//System.out.println("3");
 				}else{
 					if(aux.equals("") == false) sequencia.add(aux);
 					if(flag == 1) aux = new String(quebrado[i] + "");
-					System.out.println("4");
+					//System.out.println("4");
 				}
 				if(quebrado[i].equals(")") == false && quebrado[i].equals(")") == false){
 					flag = 1;
-					System.out.println("5");
+					//System.out.println("5");
 				}
 			}else if(quebrado[i].equals(" ") == false){
 				aux += quebrado[i];
 				flag = 0;
-				System.out.println("6");
+				//System.out.println("6");
 			}
-			System.out.println("-> AUX  " + aux);
+			//System.out.println("-> AUX  " + aux);
 		}
 		sequencia.add("" + ret);
 		String[] t = new String[sequencia.size()];
@@ -111,7 +111,7 @@ class Interpretador{
 						break;
 					case 3:
 						System.out.println("Tem um if!!");
-						System.out.println(se.percorre(Arrays.copyOfRange(tokens, 1, tokens.length), 0));
+						System.out.println(se.percorre(Arrays.copyOfRange(tokens, 1, tokens.length - 1), 0));
 						break;
 					case 4:
 						System.out.println("Tem um loop!!");
