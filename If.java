@@ -19,10 +19,13 @@ class If{
 			if (k >= 6 && k <= 13) break;
 		}
 		if (i == fim){
+			 for(int h = inic; h <= i - 2; h++) expressao[h] = " ";
 			 expressao[i - 1] = a.calcula(CLLutil.agrupa(expressao, inic, fim)).toString();
 			 return CLLutil.toDouble(expressao[i - 1]);
 		 }
 		else {
+			for(int h = inic; h <= i - 2; h++) expressao[h] = " ";
+			for(int h = i + 2; h <= fim; h++) expressao[h] = " ";
 			expressao[i - 1] = a.calcula(CLLutil.agrupa(expressao, inic + 1, i - 1)).toString();
 			expressao[i + 1] = a.calcula(CLLutil.agrupa(expressao, i + 1, fim - 1)).toString();
 		}
