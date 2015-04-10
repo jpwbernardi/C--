@@ -12,11 +12,12 @@ public class Variavel<KeyType, ValueType> {
         return key;
     }
 
-    /*public ValueType getValue() {
+    public ValueType getValue() {
         return value;
     }
 
     public String toString() {
         return "(" + key + ", " + value + ")";
-    }*/
+    }
+    
 }

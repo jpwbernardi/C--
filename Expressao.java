@@ -1,16 +1,97 @@
 import java.util.*;
 
-class Atribuicao{
-	private Variavel<String, Integer> inteiro;
+class Expressao{
+	
+	private String shuntingYard(String infix) {
+        final String ops = "-+/*%^";
+        StringBuilder sb = new StringBuilder();
+        Stack<Integer> s = new Stack<>();
 
+        for (String token : infix.split("\\s")) {
+            if (token.isEmpty())
+                continue;
+            char c = token.charAt(0);
+            int idx = ops.indexOf(c);
+
+            // check for operator
+            if (idx != -1) {
+                if (s.isEmpty())
+                    s.push(idx);
+
+                else {
+                    while (!s.isEmpty()) {
+                        int prec2 = s.peek() / 2;
+                        int prec1 = idx / 2;
+                        if (prec2 > prec1 || (prec2 == prec1 && c != '^'))
+                            sb.append(ops.charAt(s.pop())).append(' ');
+                        else break;
+                    }
+                    s.push(idx);
+                }
+            }
+            else if (c == '(') {
+                s.push(-2); // -2 stands for '('
+            }
+            else if (c == ')') {
+                // until '(' on stack, pop operators.
+                while (s.peek() != -2)
+                    sb.append(ops.charAt(s.pop())).append(' ');
+                s.pop();
+            }
+            else {
+                sb.append(token).append(' ');
+            }
+        }
+        while (!s.isEmpty())
+            sb.append(ops.charAt(s.pop())).append(' ');
+        return sb.toString();
+    }
+    
+    private Double toDouble(String n){
+        double ret = 0;
+		int pot = 1, i;
+        for(i = 0; i < n.length() && n.charAt(i) != ' '; i++);
+		for(i--; i >= 0 && n.charAt(i) != ' '; i--){
+			if((n.charAt(i) >= '0') && (n.charAt(i) <= '9')){
+				ret += (n.charAt(i) - '0') * pot;
+				pot *= 10;
+			}else if(n.charAt(i) == '|' || n.charAt(i) == '-'){
+                ret *= -1;
+            }else if(n.charAt(i) == '.'){
+				ret /= pot;
+				pot = 1;
+			}else{
+                return null;
+            }
+            //System.out.println("toDouble i: " + i + "      ret: " + ret);
+		}
+		return ret;
+    }
+    
+    private String agrupa(String[] a, int ini, int fim){
+        String ret = new String("");
+        Interpretador b = new Interpretador();
+        for(int i = ini; i <= fim; i++){
+			if(a[i].equals(" ")){
+				ini++;
+				continue;
+			}
+			if(i > ini) ret += " ";
+			if(a[i].charAt(0) == '-' && a[i].length() > 1) a[i] = a[i].replace('-', '|');
+			ret +=  a[i];
+		}
+        return ret;
+    }
+    
+	//----------- Expressões Aritméticas
 	public Double calcula(String n){
 		int i;
 
 		//System.out.println(n);
-		n = CLLutil.shuntingYard(n);
+		n = shuntingYard(n);
 		//System.out.println(n);
 
-		while(CLLutil.operadores(n) && (n.length() > 1 ? CLLutil.operadores(n.substring(1)) : true)){ //Enquanto há operadores
+		while(Simbolos.operadores(n) && (n.length() > 1 ? Simbolos.operadores(n.substring(1)) : true)){ //Enquanto há operadores
 			int x0ant = 0;
 			int x0 = 0, x1 = 0; //x0 -> posição inicial do primeiro numero   x1 -> posição inicial do segundo numero
 
@@ -37,8 +118,8 @@ class Atribuicao{
 			}
 			x1 = x0; x0 = x0ant;
 			//System.out.println("2  x0: " + x0 + "     x1: " + x1 + "     tam: " + n.length());
-			Double aux = CLLutil.toDouble(n.substring(x0, x1 - 1));
-			Double aux2 = CLLutil.toDouble(n.substring(x1, i - 1));
+			Double aux = toDouble(n.substring(x0, x1 - 1));
+			Double aux2 = toDouble(n.substring(x1, i - 1));
 			//System.out.println("3       aux1: " + aux + "          aux2: " + aux2);
 			switch(n.charAt(i)){
 				case '*':
@@ -68,28 +149,87 @@ class Atribuicao{
 		}
 
 		//System.out.println("6      return: " + CLLutil.toDouble(n));
-		return CLLutil.toDouble(n);
+		return toDouble(n);
 	}
 
-	public void atribuirValor(String[] tokens){
-		String nTokens = CLLutil.agrupa(tokens, 3, tokens.length - 2);
-		/*String nTokens = new String("");
+	//-------------    Expressões booleanas
+	
+	public boolean percorre(String[] a, int inic){ //Recebe String[] com ( na primeira posição
+		int i = inic;
+		int j;
 
-
-		for(int i = 3; i < tokens.length - 2; i++){
-			if(i > 3) nTokens = nTokens + " ";
-			if(tokens[i].charAt(0) == '-' && tokens[i].length() > 1) tokens[i] = tokens[i].replace('-', 'u');
-			nTokens = nTokens + tokens[i];
+		for(j = inic + 1; j < a.length && !a[j].equals(")"); j++){
+			if (a[j].equals("(")) percorre(a, j);
 		}
-		System.out.println(nTokens);*/
+		/*System.out.println("->>>>>>>>>>>>>iiii>>>>>>>>>>>>>>>>>>");
+		for(int b = 0; b < a.length; b++){
+			System.out.println(a[b]);
+		}
+		System.out.println("\n->>>>>>>>>>>>>>>>iiii>>>>>>>>>>>>>>>");*/
 
-		double r = this.calcula(nTokens);
-		//System.out.println("7");
-		System.out.println("->>>" + r);
-		/*inteiro.value = calcula(Arrays.copyOfRange(tokens, 3, tokens.length - 2));
-		Interpretador.novaVar(inteiro.getKey(), inteiro);*/
-
+		if (resolve(a, i, j) > 0) return true;
+		else return false;
 	}
 
+	public double resolve(String[] expressao, int inic, int fim){
+		int k = 0, i;
+		/*
+		System.out.println("->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+		for(int j = inic; j <= fim; j++){
+			System.out.print(expressao[j]);
+		}
+		System.out.println("\n->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+		*/
+		//Descobre se há operação de comparação
+		for(i = inic + 1; i < fim; i++){
+			k = Simbolos.pertence(expressao[i]);
+			if (k >= 6 && k <= 13) break;
+		}
+
+		if(i == fim){ //Se não há comparação, resolve a expressao
+			expressao[i] = this.calcula(agrupa(expressao, inic, fim)).toString();
+			for(int h = inic; h < i; h++) expressao[h] = " ";
+			return toDouble(expressao[i]);
+		}else{  //Caso contrario, quebra a expressao na comparação e resolve independentemente
+			expressao[i - 1] = this.calcula(agrupa(expressao, inic + 1, i - 1)).toString();
+			expressao[i + 1] = this.calcula(agrupa(expressao, i + 1, fim - 1)).toString();
+		}
+
+		//Transforma valores resultantes para double
+		double t1 = toDouble(expressao[i - 1]), t2 = toDouble(expressao[i + 1]);
+
+		//Apaga as expressões resolvidas
+		for(int h = inic; h <= fim; h++) expressao[h] = " ";
+		expressao[i] = "0";
+
+		switch(k){
+			case 6:
+				if (t1 > t2) expressao[i] = "1";
+				break;
+			case 7:
+				if (t1 < t2) expressao[i] = "1";
+				break;
+			case 8:
+				if (t1 >= t2) expressao[i] = "1";
+				break;
+			case 9:
+				if (t1 <= t2) expressao[i] = "1";
+				break;
+			case 10: //IGUAL
+				if (t1 == t2) expressao[i] = "1";
+				break;
+			case 11: //DIF
+				if (t1 != t2) expressao[i] = "1";
+				break;
+			case 12: //EE
+				if (t1 != 0 && t2 != 0) expressao[i] = "1";
+				break;
+			case 13: //OU
+				if (t1 != 0 || t2 != 0) expressao[i] = "1";
+				break;
+		}
+
+		return toDouble(expressao[i]);
+	}
 
 }

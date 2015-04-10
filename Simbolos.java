@@ -13,7 +13,16 @@ class Simbolos{
 		else if(n.equals("DIF")) return 11;
 		else if(n.equals("EE")) return 12;
 		else if(n.equals("OU")) return 13;
-		else if(n.equals(";")) return 14;
+		else if(n.equals("{")) return 14;
+		else if(n.equals("}")) return 15;
+		else if(n.equals(";")) return 16;
 		else return -1;
 	}
+	
+	public static boolean operadores(String n){
+        for(int i = 0; i < n.length(); i++)
+            if(Simbolos.pertence(n.charAt(i) + "") > 0) return true;
+        return false;
+    }
+    
 }

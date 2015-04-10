@@ -2,7 +2,7 @@ import java.util.*;
 
 class Interpretador{
 
-	Atribuicao atribuir;
+	Expressao expressao;
 	If se;
 	String linhas[];
 
@@ -12,8 +12,7 @@ class Interpretador{
 
 	public Interpretador(){
 		vars = new HashMap<String, Variavel>();
-		atribuir = new Atribuicao();
-		se = new If();
+		expressao = new Expressao();
 	}
 
 	public static void novaVar(String nome, Variavel valor){
@@ -82,6 +81,13 @@ class Interpretador{
 
 		return t;
 	}
+	
+	public void atribuirValor(String[] tokens){
+		String nTokens = CLLutil.agrupa(tokens, 3, tokens.length - 2);
+		Double r = expressao.calcula(nTokens);
+		//TO DO variavel tokens[1] = expressao (ou qualquer coisa assim)
+		System.out.println("->>>" + r);
+	}
 
     public void interpreta(String l[]) {
         this.linhas = l;
@@ -107,11 +113,15 @@ class Interpretador{
 						System.out.println("Só operações matematicas... algo errado");
 						break;
 					case 2:								//Atribuição
-						atribuir.atribuirValor(tokens);
+						atribuirValor(tokens);
 						break;
 					case 3:
 						System.out.println("Tem um if!!");
-						System.out.println(se.percorre(Arrays.copyOfRange(tokens, 1, tokens.length - 1), 0));
+						se = new If(Arrays.copyOfRange(tokens, 1, tokens.length - 1), 0);
+						for(String x: se.condicao){
+							System.out.println(x);
+						}
+						System.out.println(se.verificaCondicao());
 						break;
 					case 4:
 						System.out.println("Tem um loop!!");
