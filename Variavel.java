@@ -1,23 +1,16 @@
-public class Variavel<KeyType, ValueType> {
-	
-    private final KeyType key;
-    public ValueType value;
+class Variavel<Tipo> {
+    public Tipo valor;
 
-    public Variavel(KeyType key, ValueType value) {
-        this.key = key;
-        this.value = value;
+    public Variavel(Tipo valor) {
+        this.valor = valor;
     }
 
-    public KeyType getKey() {
-        return key;
-    }
-
-    public ValueType getValue() {
-        return value;
+    public Tipo getValor() {
+        return valor;
     }
 
     public String toString() {
-        return "(" + key + ", " + value + ")";
+        return valor + "";
     }
     
 }

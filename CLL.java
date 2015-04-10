@@ -19,17 +19,17 @@ class CLL{
 
         b.interpreta(linhas);
 
-		Variavel<String, Double> real = new Variavel<String, Double>("caca", 13.2);
-		Variavel<String, Integer> inteiro = new Variavel<String, Integer>("lala", 11);
-		Variavel<String, String> letras = new Variavel<String, String>("s", "Oie");
+		Variavel<Double> real = new Variavel<Double>(13.2);
+		Variavel<Integer> inteiro = new Variavel<Integer>(11);
+		Variavel<String> letras = new Variavel<String>("Oie");
 
-		Interpretador.novaVar(real.getKey(), real);
-		Interpretador.novaVar(inteiro.getKey(), inteiro);
-		Interpretador.novaVar(letras.getKey(), letras);
+		Interpretador.novaVar("cacia", real);
+		Interpretador.novaVar("lala", inteiro);
+		Interpretador.novaVar("s", letras);
 
-		System.out.println(b.getVar("caca").value);
-		System.out.println(b.getVar("lala").value);
-		System.out.println(b.getVar("s").value);
+		System.out.println(b.getVar("cacia"));
+		System.out.println(b.getVar("lala"));
+		System.out.println(b.getVar("s"));
 		//System.out.println(b.getVar("Ola").value);*/
 
     }

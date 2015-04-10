@@ -68,7 +68,7 @@ class Expressao{
 		return ret;
     }
     
-    private String agrupa(String[] a, int ini, int fim){
+    public String agrupa(String[] a, int ini, int fim){
         String ret = new String("");
         Interpretador b = new Interpretador();
         for(int i = ini; i <= fim; i++){
@@ -86,16 +86,11 @@ class Expressao{
 	//----------- Expressões Aritméticas
 	public Double calcula(String n){
 		int i;
-
-		//System.out.println(n);
 		n = shuntingYard(n);
-		//System.out.println(n);
 
 		while(Simbolos.operadores(n) && (n.length() > 1 ? Simbolos.operadores(n.substring(1)) : true)){ //Enquanto há operadores
 			int x0ant = 0;
 			int x0 = 0, x1 = 0; //x0 -> posição inicial do primeiro numero   x1 -> posição inicial do segundo numero
-
-			//System.out.println(n);
 
 			//posição 0 sempre vai ter um numero ou sinal, não preciso me "preocupar"
 			for(i = 0; i < n.length(); i++){
@@ -116,11 +111,12 @@ class Expressao{
 					x1 = i;
 				}
 			}
+			
 			x1 = x0; x0 = x0ant;
-			//System.out.println("2  x0: " + x0 + "     x1: " + x1 + "     tam: " + n.length());
+		
 			Double aux = toDouble(n.substring(x0, x1 - 1));
 			Double aux2 = toDouble(n.substring(x1, i - 1));
-			//System.out.println("3       aux1: " + aux + "          aux2: " + aux2);
+		
 			switch(n.charAt(i)){
 				case '*':
 					aux *= aux2;
@@ -140,15 +136,14 @@ class Expressao{
 				case '%':
 					aux %= aux2;
 			}
-			//System.out.println("4");
 			if(i + 1 < n.length()) i++;
+			
 			String tmp = aux.toString();
+			
 			if(aux < 0) tmp = tmp.replace('-', '|');
 			n = n.replace(n.substring(x0, i), tmp);
-			//System.out.println("5");
 		}
 
-		//System.out.println("6      return: " + CLLutil.toDouble(n));
 		return toDouble(n);
 	}
 
@@ -173,13 +168,7 @@ class Expressao{
 
 	public double resolve(String[] expressao, int inic, int fim){
 		int k = 0, i;
-		/*
-		System.out.println("->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-		for(int j = inic; j <= fim; j++){
-			System.out.print(expressao[j]);
-		}
-		System.out.println("\n->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-		*/
+		
 		//Descobre se há operação de comparação
 		for(i = inic + 1; i < fim; i++){
 			k = Simbolos.pertence(expressao[i]);

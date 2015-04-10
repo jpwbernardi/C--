@@ -83,7 +83,7 @@ class Interpretador{
 	}
 	
 	public void atribuirValor(String[] tokens){
-		String nTokens = CLLutil.agrupa(tokens, 3, tokens.length - 2);
+		String nTokens = expressao.agrupa(tokens, 3, tokens.length - 2);
 		Double r = expressao.calcula(nTokens);
 		//TO DO variavel tokens[1] = expressao (ou qualquer coisa assim)
 		System.out.println("->>>" + r);
