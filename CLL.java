@@ -27,7 +27,7 @@ class CLL{
 		Interpretador.novaVar("lala", inteiro);
 		Interpretador.novaVar("s", letras);
 
-		System.out.println(b.getVar("cacia"));
+		/*System.out.println(b.getVar("cacia"));
 		System.out.println(b.getVar("lala"));
 		System.out.println(b.getVar("s"));
 		//System.out.println(b.getVar("Ola").value);*/

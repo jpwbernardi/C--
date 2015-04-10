@@ -4,6 +4,7 @@ class Interpretador{
 
 	Expressao expressao;
 	If se;
+	ArrayList<Loop> laco;
 	String linhas[];
 
 
@@ -13,6 +14,7 @@ class Interpretador{
 	public Interpretador(){
 		vars = new HashMap<String, Variavel>();
 		expressao = new Expressao();
+		laco = new ArrayList<Loop>();
 	}
 
 	public static void novaVar(String nome, Variavel valor){
@@ -40,7 +42,7 @@ class Interpretador{
 		for(i = 0; i < quebrado.length; i++){
 			if(aux == null) aux = new String("");
 			if(flag == 1 && quebrado[i].equals("+")) continue;	//Se o ultimo foi um sinal (operador) e o atual é +, ignora;
-			if(quebrado[i].equals(" ") && (aux.equals("") == false)){
+			if((quebrado[i].equals(" ") || quebrado[i].equals("	")) && (aux.equals("") == false)){
 				if(flag != 1 && aux.equals("-") == false){
 					sequencia.add(aux);
 					aux = null;
@@ -68,7 +70,7 @@ class Interpretador{
 					flag = 1;
 					//System.out.println("5");
 				}
-			}else if(quebrado[i].equals(" ") == false){
+			}else if(quebrado[i].equals(" ") == false && quebrado[i].equals("	") == false){
 				aux += quebrado[i];
 				flag = 0;
 				//System.out.println("6");
@@ -86,7 +88,16 @@ class Interpretador{
 		String nTokens = expressao.agrupa(tokens, 3, tokens.length - 2);
 		Double r = expressao.calcula(nTokens);
 		//TO DO variavel tokens[1] = expressao (ou qualquer coisa assim)
-		System.out.println("->>>" + r);
+		//System.out.println("->>>" + r);
+	}
+
+	public int fimEscopo(String l[], int i){
+		int resp = 1; i++;
+		for(; i < l.length && resp != 0; i++){
+			if(Simbolos.pertence(l[i]) == 14) resp++;
+			else if(Simbolos.pertence(l[i]) == 15) resp--;
+		}
+		return i;
 	}
 
     public void interpreta(String l[]) {
@@ -96,8 +107,8 @@ class Interpretador{
             if(this.linhas[i] != null) {
 				//System.out.println("1o ->" + linhas[i]);
                 String[] tokens = this.divide(linhas[i]);
-                /*System.out.println("-------------");
-				for(String x : tokens){
+                //System.out.println("-------------");
+				/*(for(String x : tokens){
 					System.out.println(x);
 				}
 				System.out.println("-------------");*/
@@ -110,27 +121,46 @@ class Interpretador{
 
 				switch(operacao){
 					case 1:
-						System.out.println("Só operações matematicas... algo errado");
+						//System.out.println("Só operações matematicas... algo errado");
 						break;
 					case 2:								//Atribuição
 						atribuirValor(tokens);
 						break;
 					case 3:
-						System.out.println("Tem um if!!");
+						//System.out.println("Tem um if!!");
 						se = new If(Arrays.copyOfRange(tokens, 1, tokens.length - 1), 0);
-						for(String x: se.condicao){
+						/*for(String x: se.condicao){
 							System.out.println(x);
-						}
-						System.out.println(se.verificaCondicao());
+						}*/
+						//System.out.println(se.verificaCondicao());
 						break;
 					case 4:
-						System.out.println("Tem um loop!!");
+						//System.out.println("Tem um loop!!");
+						
+						int j = fimEscopo(l, i);
+						
+						//System.out.println("------>>>>>" + l[i]);
+						
+						Loop p = new Loop(Arrays.copyOfRange(l, i + 1, j - 1), Arrays.copyOfRange(tokens, 1, tokens.length - 1));
+						/*System.out.println("------");
+						for(String x: p.atribuicao){
+							System.out.println(x);
+						}
+						System.out.println("------");
+						for(String x: p.se.condicao){
+							System.out.println(x);
+						}
+						System.out.println("");
+						for(String x: p.incremento){
+							System.out.println(x);
+						}
+						System.out.println("");*/
 						break;
 					case 5:
-						System.out.println("Tem uma declaracao!!");
+						//System.out.println("Tem uma declaracao!!");
 						break;
 					case 10:
-						System.out.println("So ponto e virgula.... algo errado");
+						//System.out.println("So ponto e virgula.... algo errado");
 
 				}
 
