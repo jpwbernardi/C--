@@ -6,14 +6,15 @@ class Interpretador{
 	If se;
 	Loop laco;
 	String linhas[];
+	//boolean main; Variaveis locais (Descomentar quando implementar)
 
 
-	public static HashMap<String, Variavel> vars;
+	public static HashMap<String, Variavel> vars = new HashMap<String, Variavel>();
 
 
 	public Interpretador(){
-		vars = new HashMap<String, Variavel>();
 		expressao = new Expressao();
+		//main = flag;
 	}
 
 	public static void novaVar(String nome, Variavel valor){
@@ -34,7 +35,7 @@ class Interpretador{
 
 		String aux = null;
 
-		int i, ret = 0;
+		int i;
 		int flag = 1; //ultima quebra foi em um Simbolo ? 1 : 0
 
 		//Forma mais simples que achei de consertar valores negativos!!! (tentar melhorar)
@@ -44,11 +45,11 @@ class Interpretador{
 			if((quebrado[i].equals(" ") || quebrado[i].equals("	")) && (aux.equals("") == false)){
 				if(flag != 1 && aux.equals("-") == false){
 					sequencia.add(aux);
+					if(Simbolos.pertence(aux) > 0) flag = 1;
 					aux = null;
 				}
 				//System.out.println("1");
 			}else if(Simbolos.pertence(quebrado[i]) > 0){
-				if(ret == 0) ret = Simbolos.pertence(quebrado[i]);		//Pega o primeiro valor de simbolo que encontrou
 				if(quebrado[i].equals("(") && aux.equals("-")){
 					sequencia.add("-1");
 					sequencia.add("*");
@@ -76,7 +77,7 @@ class Interpretador{
 			}
 			//System.out.println("-> AUX  " + aux);
 		}
-		sequencia.add("" + ret);
+
 		String[] t = new String[sequencia.size()];
 		sequencia.toArray(t);
 
@@ -84,17 +85,24 @@ class Interpretador{
 	}
 
 	public void atribuirValor(String[] tokens){
-		String nTokens = expressao.agrupa(tokens, 3, tokens.length - 2);
-		Double r = expressao.calcula(nTokens);
-		//TO DO variavel tokens[1] = expressao (ou qualquer coisa assim)
+		String nTokens = expressao.agrupa(tokens, 2, tokens.length - 2); //remove nome da variavel, sinal de igual e ;
+
+		System.out.println("Atribuição :\n" + nTokens);
+		Double resp = expressao.calcula(nTokens);
+		//Variavel aux = Interpretador.getVar(tokens[0]);
+		VariavelDouble nova = new VariavelDouble(resp);
+		Interpretador.novaVar(tokens[0], nova);
+				//TO DO variavel tokens[1] = expressao (ou qualquer coisa assim)
+		//System.out.println("Oi");
 		//System.out.println("->>>" + r);
 	}
 
 	public int fimEscopo(String l[], int i){
-		int resp = 1; i++;
-		for(; i < l.length && resp != 0; i++){
-			if(Simbolos.pertence(l[i]) == 14) resp++;
-			else if(Simbolos.pertence(l[i]) == 15) resp--;
+		int resp = 1, j;
+		for(i++; i < l.length && resp != 0; i++){
+			for(j = 0; j < l[i].length(); j++)
+				if(Simbolos.pertence(l[i].charAt(j) + "") == 14) resp++;
+				else if(Simbolos.pertence(l[i].charAt(j) + "") == 15) resp--;
 		}
 		return i;
 	}
@@ -103,35 +111,41 @@ class Interpretador{
         this.linhas = l;
 
         for(int i = 0; i < this.linhas.length; i++) {
+			int operacao = 0;
             if(this.linhas[i] != null) {
 				//System.out.println("1o ->" + linhas[i]);
                 String[] tokens = this.divide(linhas[i]);
-                //System.out.println("-------------");
-				/*(for(String x : tokens){
+                /*System.out.println("-------------");
+				for(String x : tokens){
 					System.out.println(x);
 				}
 				System.out.println("-------------");*/
 
-                int operacao = Integer.parseInt(tokens[(tokens.length) - 1]); //Ultima posição da string guarda a primeira operação encontrada;
+				//operacao = Simbolos.pertence(tokens[0]);	//Verifica qual é a primeira palavra
 
-                if(operacao != 2){ //Se não for uma atribuição
-					operacao = Simbolos.pertence(tokens[0]);	//Verifica qual é a primeira palavra
+				for(int j = 0; i < tokens.length; j++){
+					if(Simbolos.pertence(tokens[j]) > 1){
+						operacao = Simbolos.pertence(tokens[j]);
+						break;
+					}
 				}
-
 				switch(operacao){
 					case 1:
-						//System.out.println("Só operações matematicas... algo errado");
+						System.out.println("Só operações matematicas... algo errado");
 						break;
 					case 2:								//Atribuição
 						atribuirValor(tokens);
 						break;
 					case 3:
-						//System.out.println("Tem um if!!");
-						se = new If(Arrays.copyOfRange(tokens, 1, tokens.length - 2));
+						System.out.println("Tem um if!!");
+						se = new If(Arrays.copyOfRange(tokens, 1, tokens.length - 1)); //Removendo a chave do final e o if do começo
 						/*for(String x: se.condicao){
 							System.out.println(x);
 						}*/
-						//System.out.println(se.verificaCondicao());
+						if(se.verificaCondicao()) continue;
+						else i = fimEscopo(l, i) - 1;
+						//return;
+						//System.out.println();
 						break;
 					case 4:
 						//System.out.println("Tem um loop!!");
@@ -141,6 +155,7 @@ class Interpretador{
 						//System.out.println("------>>>>>" + l[i]);
 
 						Loop p = new Loop(Arrays.copyOfRange(l, i + 1, j - 1), Arrays.copyOfRange(tokens, 1, tokens.length - 1));
+						i = j;
 						/*System.out.println("------");
 						for(String x: p.atribuicao){
 							System.out.println(x);
@@ -155,11 +170,15 @@ class Interpretador{
 						}
 						System.out.println("");*/
 						break;
-					case 5:
-						//System.out.println("Tem uma declaracao!!");
+					case 16:
+						System.out.println("Tem um ;");
 						break;
-					case 10:
-						//System.out.println("So ponto e virgula.... algo errado");
+					case 17:
+						System.out.println("Entrou no loop");
+						break;
+					default:
+						System.out.println("Algo errado??...");
+						break;
 
 				}
 

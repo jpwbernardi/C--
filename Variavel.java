@@ -1,8 +1,8 @@
-class Variavel<Tipo> {
+abstract class Variavel<Tipo> {
     public Tipo valor;
 
     public Variavel(Tipo valor) {
-        this.valor = valor;
+        setValor(valor);
     }
 
     public Tipo getValor() {
@@ -12,5 +12,9 @@ class Variavel<Tipo> {
     public String toString() {
         return valor + "";
     }
-    
+
+    public void setValor(Tipo valor){
+        this.valor = valor;
+    }
+
 }

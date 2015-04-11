@@ -1,7 +1,7 @@
 import java.util.*;
 
 class Expressao{
-	
+
 	private String shuntingYard(String infix) {
         final String ops = "-+/*%^";
         StringBuilder sb = new StringBuilder();
@@ -46,7 +46,7 @@ class Expressao{
             sb.append(ops.charAt(s.pop())).append(' ');
         return sb.toString();
     }
-    
+
     private Double toDouble(String n){
         double ret = 0;
 		int pot = 1, i;
@@ -67,22 +67,53 @@ class Expressao{
 		}
 		return ret;
     }
-    
+
     public String agrupa(String[] a, int ini, int fim){
+		//System.out.println("Oi");
         String ret = new String("");
         Interpretador b = new Interpretador();
+		Variavel aux;
         for(int i = ini; i <= fim; i++){
+			//System.out.println("1");
 			if(a[i].equals(" ")){
+				//System.out.println("2");
 				ini++;
 				continue;
 			}
 			if(i > ini) ret += " ";
-			if(a[i].charAt(0) == '-' && a[i].length() > 1) a[i] = a[i].replace('-', '|');
-			ret +=  a[i];
+			//System.out.println("3");
+			if(a[i].charAt(0) == '-' && a[i].length() > 1){
+				//System.out.println("4");
+				aux = Interpretador.getVar(a[i].substring(1));
+				//System.out.println("aux = " + aux.getValor().toString());
+				if(aux != null){
+					//System.out.println("5");
+					ret += "-" + aux.getValor().toString();
+				}else{
+					//System.out.println("6");
+					a[i] = a[i].replace('-', '|');
+					ret +=  a[i];
+				}
+			}else{
+				//System.out.println("7");
+				//System.out.println("Lalau = {" + a[i] + "}");
+				aux = Interpretador.getVar(a[i]);
+				//System.out.println("Olazinho");
+				//System.out.println("lalau existe ? " + aux.getValor());
+				if(aux != null){
+					//System.out.println("8");
+					ret += aux.getValor().toString();
+				}else{
+					//System.out.println("9");
+					ret += a[i];
+				}
+			}
+
 		}
+		//System.out.println(ret);
         return ret;
     }
-    
+
 	//----------- Expressões Aritméticas
 	public Double calcula(String n){
 		int i;
@@ -111,12 +142,12 @@ class Expressao{
 					x1 = i;
 				}
 			}
-			
+
 			x1 = x0; x0 = x0ant;
-		
+
 			Double aux = toDouble(n.substring(x0, x1 - 1));
 			Double aux2 = toDouble(n.substring(x1, i - 1));
-		
+
 			switch(n.charAt(i)){
 				case '*':
 					aux *= aux2;
@@ -137,9 +168,9 @@ class Expressao{
 					aux %= aux2;
 			}
 			if(i + 1 < n.length()) i++;
-			
+
 			String tmp = aux.toString();
-			
+
 			if(aux < 0) tmp = tmp.replace('-', '|');
 			n = n.replace(n.substring(x0, i), tmp);
 		}
@@ -148,27 +179,33 @@ class Expressao{
 	}
 
 	//-------------    Expressões booleanas
-	
+
 	public boolean percorre(String[] a, int inic){ //Recebe String[] com ( na primeira posição
 		int i = inic;
 		int j;
 
-		for(j = inic + 1; j < a.length && !a[j].equals(")"); j++){
+		/*for(String x: a){
+			System.out.println(x);
+		}*/
+
+		for(j = inic + 1; j < a.length && !a[j].equals(")"); j++)
 			if (a[j].equals("(")) percorre(a, j);
-		}
+
 		/*System.out.println("->>>>>>>>>>>>>iiii>>>>>>>>>>>>>>>>>>");
 		for(int b = 0; b < a.length; b++){
 			System.out.println(a[b]);
 		}
 		System.out.println("\n->>>>>>>>>>>>>>>>iiii>>>>>>>>>>>>>>>");*/
-
+		//System.out.println("Oioioioioioi");
 		if (resolve(a, i, j) > 0) return true;
 		else return false;
 	}
 
 	public double resolve(String[] expressao, int inic, int fim){
 		int k = 0, i;
-		
+
+
+
 		//Descobre se há operação de comparação
 		for(i = inic + 1; i < fim; i++){
 			k = Simbolos.pertence(expressao[i]);
@@ -180,10 +217,17 @@ class Expressao{
 			for(int h = inic; h < i; h++) expressao[h] = " ";
 			return toDouble(expressao[i]);
 		}else{  //Caso contrario, quebra a expressao na comparação e resolve independentemente
+			//System.out.println(inic + "   " +  i + "   " + fim);
+			/*String t =
+			System.out.println(t);*/
 			expressao[i - 1] = this.calcula(agrupa(expressao, inic + 1, i - 1)).toString();
 			expressao[i + 1] = this.calcula(agrupa(expressao, i + 1, fim - 1)).toString();
 		}
 
+		/*System.out.println("Aqui amigo :");
+		for(String x: expressao){
+			System.out.println(x);
+		}*/
 		//Transforma valores resultantes para double
 		double t1 = toDouble(expressao[i - 1]), t2 = toDouble(expressao[i + 1]);
 
@@ -218,6 +262,7 @@ class Expressao{
 				break;
 		}
 
+		//System.out.println("Fim Aqui amigo");
 		return toDouble(expressao[i]);
 	}
 

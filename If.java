@@ -4,9 +4,11 @@ class If{
 
 	public If(String[] a){
 		condicao = Arrays.copyOfRange(a, 0, a.length);
-		/*for(String x: condicao){
+		/*System.out.println("Condição do if:");
+		for(String x: condicao){
 			System.out.println(x);
-		}*/
+		}
+		System.out.println("Fim da condição do if");*/
 		//inic = i;
 	}
 
