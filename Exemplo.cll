@@ -1,5 +1,4 @@
 i = 5;
-
 loop(10; 2 MENOR i; 2){
     if(10 MENOR 1){
         loop(10; 5 MENOR 4; 2){
