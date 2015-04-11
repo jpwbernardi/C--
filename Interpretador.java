@@ -87,7 +87,7 @@ class Interpretador{
 	public void atribuirValor(String[] tokens){
 		String nTokens = expressao.agrupa(tokens, 2, tokens.length - 2); //remove nome da variavel, sinal de igual e ;
 
-		System.out.println("Atribuição :\n" + nTokens);
+		//System.out.println("Atribuição :\n" + nTokens);
 		Double resp = expressao.calcula(nTokens);
 		//Variavel aux = Interpretador.getVar(tokens[0]);
 		VariavelDouble nova = new VariavelDouble(resp);
