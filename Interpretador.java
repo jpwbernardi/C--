@@ -4,7 +4,7 @@ class Interpretador{
 
 	Expressao expressao;
 	If se;
-	ArrayList<Loop> laco;
+	Loop laco;
 	String linhas[];
 
 
@@ -14,7 +14,6 @@ class Interpretador{
 	public Interpretador(){
 		vars = new HashMap<String, Variavel>();
 		expressao = new Expressao();
-		laco = new ArrayList<Loop>();
 	}
 
 	public static void novaVar(String nome, Variavel valor){
@@ -83,7 +82,7 @@ class Interpretador{
 
 		return t;
 	}
-	
+
 	public void atribuirValor(String[] tokens){
 		String nTokens = expressao.agrupa(tokens, 3, tokens.length - 2);
 		Double r = expressao.calcula(nTokens);
@@ -128,7 +127,7 @@ class Interpretador{
 						break;
 					case 3:
 						//System.out.println("Tem um if!!");
-						se = new If(Arrays.copyOfRange(tokens, 1, tokens.length - 1), 0);
+						se = new If(Arrays.copyOfRange(tokens, 1, tokens.length - 2));
 						/*for(String x: se.condicao){
 							System.out.println(x);
 						}*/
@@ -136,11 +135,11 @@ class Interpretador{
 						break;
 					case 4:
 						//System.out.println("Tem um loop!!");
-						
+
 						int j = fimEscopo(l, i);
-						
+
 						//System.out.println("------>>>>>" + l[i]);
-						
+
 						Loop p = new Loop(Arrays.copyOfRange(l, i + 1, j - 1), Arrays.copyOfRange(tokens, 1, tokens.length - 1));
 						/*System.out.println("------");
 						for(String x: p.atribuicao){
