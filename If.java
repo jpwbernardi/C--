@@ -14,6 +14,8 @@ class If{
 
 	public boolean verificaCondicao(){
 		Expressao ex = new Expressao();
+		//boolean aux = ;
+		//System.out.println(aux);
 		return ex.percorre(condicao, 0);
 	}
 }

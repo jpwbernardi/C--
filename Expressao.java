@@ -71,7 +71,7 @@ class Expressao{
     public String agrupa(String[] a, int ini, int fim){
 		//System.out.println("Oi");
         String ret = new String("");
-        Interpretador b = new Interpretador();
+        //Interpretador b = new Interpretador(false);
 		Variavel aux;
         for(int i = ini; i <= fim; i++){
 			//System.out.println("1");
@@ -165,7 +165,9 @@ class Expressao{
 					aux = Math.pow(aux, aux2);
 					break;
 				case '%':
+					//System.out.println("mod :   " + aux + "    " + aux2);
 					aux %= aux2;
+					//System.out.println("resp :   " + aux);
 			}
 			if(i + 1 < n.length()) i++;
 

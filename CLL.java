@@ -31,9 +31,9 @@ class CLL{
 		Interpretador.novaVar("lala", inteiro);
 		Interpretador.novaVar("lalau", inteiro1);
 
-		aux = Interpretador.getVar("i");
+//		aux = Interpretador.getVar("i");
 
-		System.out.println("i existe ? " + aux.getValor());
+//		System.out.println("i existe ? " + aux.getValor());
 
 
 

@@ -1,5 +1,5 @@
 i = 2;
-num = 31;
+num = 101;
 flag = 0;
 loop(10; (i * i) MENOR num; 2){
     if((num % i) IGUAL 0){

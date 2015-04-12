@@ -99,10 +99,11 @@ class Interpretador{
 
 	public int fimEscopo(String l[], int i){
 		int resp = 1, j;
-		for(i++; i < l.length && resp != 0; i++){
+		for(i++; i < l.length; i++){
 			for(j = 0; j < l[i].length(); j++)
 				if(Simbolos.pertence(l[i].charAt(j) + "") == 14) resp++;
 				else if(Simbolos.pertence(l[i].charAt(j) + "") == 15) resp--;
+				if(resp == 0) break;
 		}
 		return i;
 	}
@@ -133,31 +134,33 @@ class Interpretador{
 
 				switch(operacao){
 					case 1:
-						System.out.println("Só operações matematicas... algo errado");
+					//	System.out.println("Só operações matematicas... algo errado");
 						break;
 					case 2:								//Atribuição
-						System.out.println("Tem atribuicao!!");
+						//System.out.println("Tem atribuicao!!");
 						atribuirValor(tokens);
 						break;
 					case 3:
-						System.out.println("Tem um if!!");
+					//	System.out.println("Tem um if!!");
 						se = new If(Arrays.copyOfRange(tokens, 1, tokens.length - 1)); //Removendo a chave do final e o if do começo
-						/*for(String x: se.condicao){
-							System.out.println(x);
+					/*	for(String x: se.condicao){
+							System.out.print(x + " ");
 						}*/
 						if(se.verificaCondicao()) continue;
-						else i = fimEscopo(l, i) - 1;
+						else i = fimEscopo(l, i);
+						//System.out.println("Fim ->" + i);
+						//}
 						//return;
-						//System.out.println();
+						//System.out.println("-----> "+ linhas[i]);
 						break;
 					case 4:
 						//System.out.println("Tem um loop!!");
 
 						int j = fimEscopo(l, i);
 
-						//System.out.println("------>>>>>" + l[i]);
+					//	System.out.println("j = " + j + "    i = " + i);
 
-						Loop p = new Loop(Arrays.copyOfRange(l, i + 1, j - 1), Arrays.copyOfRange(tokens, 1, tokens.length - 1));
+						Loop p = new Loop(Arrays.copyOfRange(l, i + 1, j), Arrays.copyOfRange(tokens, 1, tokens.length - 1));
 						i = j;
 						/*System.out.println("------");
 						for(String x: p.atribuicao){
@@ -175,25 +178,25 @@ class Interpretador{
 						break;
 					case 5:
 						if(funcao){
-							System.out.println("Tem um break aqui!");
+						//	System.out.println("Tem um break aqui!");
 							return 1;
 						}
 						break;
 					case 17:
 						if(funcao){
-							System.out.println("Tem continue!");
+						//	System.out.println("Tem continue!");
 							i = linhas.length;
 						}
 						break;
 					case 16:
-						System.out.println("Tem um ;");
+						//System.out.println("Tem um ;");
 						break;
 
 					case 20:
-						System.out.println("PRINT");
+						//System.out.println("PRINT");
 						Printa printa = new Printa(Arrays.copyOfRange(tokens, 2, tokens.length - 2));
 					default:
-						System.out.println("Algo errado??...");
+					//	System.out.println("Algo errado??...");
 						break;
 
 				}
