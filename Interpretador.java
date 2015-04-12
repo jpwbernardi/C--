@@ -41,6 +41,10 @@ class Interpretador{
 		//Forma mais simples que achei de consertar valores negativos!!! (tentar melhorar)
 		for(i = 0; i < quebrado.length; i++){
 			if(aux == null) aux = new String("");
+			if(quebrado [i].equals("#")){
+				if(aux.equals("") == false) sequencia.add(aux);
+				break;
+			} //Comentario
 			if(flag == 1 && quebrado[i].equals("+")) continue;	//Se o ultimo foi um sinal (operador) e o atual é +, ignora;
 			if((quebrado[i].equals(" ") || quebrado[i].equals("	")) && (aux.equals("") == false)){
 				if(flag != 1 && aux.equals("-") == false){
@@ -116,12 +120,12 @@ class Interpretador{
             if(this.linhas[i] != null) {
 				//System.out.println("1o ->" + linhas[i]);
                 String[] tokens = this.divide(linhas[i]);
-				//System.out.println("-------------");
-				/*for(String x : tokens){
-					System.out.println(x);
-				}*/
-				//System.out.println("-------------");
-
+				/*System.out.println("-------------");
+				for(String x : tokens){
+					System.out.print(x + " ");
+				}
+				System.out.println("-------------");
+*/
 				//operacao = Simbolos.pertence(tokens[0]);	//Verifica qual é a primeira palavra
 
 				for(int j = 0; j < tokens.length; j++){

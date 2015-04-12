@@ -1,7 +1,7 @@
-i = 2;
-num = 101;
-flag = 0;
-loop(10; (i * i) MENOR num; 2){
+i = 2;  #Outro teste
+num = 101;#teste
+flag = 0; #Teste de comentario
+loop(10; (i * i) MENOR num; 2){ #Enquanto compilar estou de boa
     if((num % i) IGUAL 0){
         flag = 1;
         break;
@@ -9,7 +9,7 @@ loop(10; (i * i) MENOR num; 2){
     i = i + 1;
 }
 if(flag IGUAL 1){
-    printa("Nao eh primo!");
+    printa("Nao eh primo!"); #Outro teste
 }
 if(flag IGUAL 0){
     printa("eh primo!");
