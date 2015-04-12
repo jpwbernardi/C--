@@ -6,15 +6,15 @@ class Interpretador{
 	If se;
 	Loop laco;
 	String linhas[];
-	//boolean main; Variaveis locais (Descomentar quando implementar)
+	boolean funcao; //Se for um laço ou funcao, true
 
 
 	public static HashMap<String, Variavel> vars = new HashMap<String, Variavel>();
 
 
-	public Interpretador(){
+	public Interpretador(boolean flag){
 		expressao = new Expressao();
-		//main = flag;
+		funcao = flag;
 	}
 
 	public static void novaVar(String nome, Variavel valor){
@@ -107,7 +107,7 @@ class Interpretador{
 		return i;
 	}
 
-    public void interpreta(String l[]) {
+    public int interpreta(String l[]) {
         this.linhas = l;
 
         for(int i = 0; i < this.linhas.length; i++) {
@@ -115,25 +115,28 @@ class Interpretador{
             if(this.linhas[i] != null) {
 				//System.out.println("1o ->" + linhas[i]);
                 String[] tokens = this.divide(linhas[i]);
-                /*System.out.println("-------------");
-				for(String x : tokens){
+				//System.out.println("-------------");
+				/*for(String x : tokens){
 					System.out.println(x);
-				}
-				System.out.println("-------------");*/
+				}*/
+				//System.out.println("-------------");
 
 				//operacao = Simbolos.pertence(tokens[0]);	//Verifica qual é a primeira palavra
 
-				for(int j = 0; i < tokens.length; j++){
+				for(int j = 0; j < tokens.length; j++){
+					//System.out.println(tokens[j]);
 					if(Simbolos.pertence(tokens[j]) > 1){
 						operacao = Simbolos.pertence(tokens[j]);
 						break;
 					}
 				}
+
 				switch(operacao){
 					case 1:
 						System.out.println("Só operações matematicas... algo errado");
 						break;
 					case 2:								//Atribuição
+						System.out.println("Tem atribuicao!!");
 						atribuirValor(tokens);
 						break;
 					case 3:
@@ -170,12 +173,25 @@ class Interpretador{
 						}
 						System.out.println("");*/
 						break;
+					case 5:
+						if(funcao){
+							System.out.println("Tem um break aqui!");
+							return 1;
+						}
+						break;
+					case 17:
+						if(funcao){
+							System.out.println("Tem continue!");
+							i = linhas.length;
+						}
+						break;
 					case 16:
 						System.out.println("Tem um ;");
 						break;
-					case 17:
-						System.out.println("Entrou no loop");
-						break;
+
+					case 20:
+						System.out.println("PRINT");
+						Printa printa = new Printa(Arrays.copyOfRange(tokens, 2, tokens.length - 2));
 					default:
 						System.out.println("Algo errado??...");
 						break;
@@ -185,5 +201,6 @@ class Interpretador{
 
             }
         }
+		return 0;
     }
 }

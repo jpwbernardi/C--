@@ -4,7 +4,8 @@ class Simbolos{
 		else if(n.equals("=")) return 2; //Não alterar
 		else if(n.equals("if")) return 3;
 		else if(n.equals("loop")) return 4;
-		//else if(n.equals("var")) return 5; Para declarar uma variavel numérica não precisa declarar, só faz a atribuição
+		else if(n.equals("break")) return 5;
+		else if(n.equals("continue")) return 17;
 		else if(n.equals("MAIOR")) return 6;
 		else if(n.equals("MENOR")) return 7;
 		else if(n.equals("MAIORI")) return 8;
@@ -15,8 +16,9 @@ class Simbolos{
 		else if(n.equals("OU")) return 13;
 		else if(n.equals("{")) return 14;
 		else if(n.equals("}")) return 15;
-		else if(n.equals("!")) return 17; //Teste!
 		else if(n.equals(";")) return 16;
+		else if(n.equals("printa")) return 20;
+
 
 		else return -1;
 	}

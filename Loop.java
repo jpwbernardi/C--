@@ -33,7 +33,8 @@ class Loop{
 
     private void executa(String[] bloco){
         String[] aux = Arrays.copyOfRange(se.condicao, 0, se.condicao.length);
-        Interpretador x = new Interpretador();
+        Interpretador x = new Interpretador(true);
+
         //int i = 5; //Para não ficar em loop infinito (Condição sempre é estatica já que não trabalhamos com variaveis ainda)
         /*System.out.println("~~~~~~");
         for(String a: aux){
@@ -41,14 +42,7 @@ class Loop{
         }
         System.out.println("~~~~~~");*/
         //System.out.println(aux1);
-        while(se.verificaCondicao()){
-            //for(String a: aux) System.out.print(a);
-            //System.out.print("\n");
-            x.interpreta(bloco);
-            //i--;
-            //System.out.println("~~" + i + "~~\n\n");
-            //System.out.print("\n\n");
+        while(se.verificaCondicao() && x.interpreta(bloco) == 0)
             se = new If(aux);
-        }
     }
 }
