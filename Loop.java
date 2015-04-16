@@ -1,15 +1,22 @@
 import java.util.*;
 class Loop{
     If se;
-    String[] atribuicao;
-    String[] incremento;
 
     public Loop(String[] bloco, String[] comando){
-        int aux, i;
+        //int aux, i;
+
+		ArrayList<String> tmp = new ArrayList<String>();
+        tmp.add("(");
+        for(int i = 0; i < comando.length; i++) tmp.add(comando[i]);
+        tmp.add(")");
+
+        String[] condicao = new String[tmp.size()];
+        tmp.toArray(condicao);
+        se = new If(condicao);
 
         /*for(String p: bloco){
             System.out.println(p);
-        }*/
+        }
 
         for(i = 0; i < comando.length; i++)
             if(comando[i].equals(";")) break;
@@ -18,16 +25,9 @@ class Loop{
         for(aux = ++i; i < comando.length; i++)
             if(comando[i].equals(";")) break;
 
-        ArrayList<String> tmp = new ArrayList<String>();
-        tmp.add("(");
-        while(aux < i){ tmp.add(comando[aux]); aux++; }
-        tmp.add(")");
 
-        String[] condicao = new String[tmp.size()];
-        tmp.toArray(condicao);
-        se = new If(condicao);
 
-        incremento = Arrays.copyOfRange(comando, i + 1, comando.length - 2);
+        incremento = Arrays.copyOfRange(comando, i + 1, comando.length - 2);*/
         executa(bloco);
     }
 
