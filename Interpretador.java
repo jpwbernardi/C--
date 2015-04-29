@@ -44,12 +44,12 @@ class Interpretador{
 		//System.out.println("->>>" + r);
 	}
 
-	public int fimEscopo(String l[], int i){
+	public int fimEscopo(int i){
 		int resp = 1, j;
-		for(i++; i < l.length; i++){
-			for(j = 0; j < l[i].length(); j++)
-				if(Simbolos.pertence(l[i].charAt(j) + "") == 14) resp++;
-				else if(Simbolos.pertence(l[i].charAt(j) + "") == 15) resp--;
+		for(i++; i < linhas.length; i++){
+			for(j = 0; j < linhas[i].length(); j++)
+				if(Simbolos.pertence(linhas[i].charAt(j) + "") == 14) resp++;
+				else if(Simbolos.pertence(linhas[i].charAt(j) + "") == 15) resp--;
 				if(resp == 0) break;
 		}
 		return i;
@@ -110,7 +110,7 @@ class Interpretador{
 					//	System.out.println("Tem um if!!");
 						se = new If(expressao.condicao()); //Removendo a chave do final e o if do começo
 						if(se.verificaCondicao()) continue;
-						else i = fimEscopo(l, i);
+						else i = fimEscopo(i);
 						//System.out.println("Fim ->" + i);
 						//}
 						//return;
