@@ -33,7 +33,7 @@ class CLL{
 
 		aux = Interpretador.getVar("i");
 
-		System.out.println("i existe ? " + aux.getValor());
+		System.out.println("i existe ? " + aux);
 
 
 

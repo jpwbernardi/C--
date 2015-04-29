@@ -59,15 +59,15 @@ class Interpretador{
 		ArrayList<String> codigo = new ArrayList<String>();
 		for(int i = 0; s[i] != null; i++){
 			s[i].replace('\n', '\0');
-			int inicio = 0;
-			for(int j = 0; j < s[i].length(); j++){
+			int inicio = 0, j;
+			for(j = 0; j < s[i].length(); j++){
 				if(s[i].charAt(j) == ';' || s[i].charAt(j) == '{' || s[i].charAt(j) == '}'){
 					codigo.add(s[i].substring(inicio, j + 1));
 					inicio = j + 1;
-				}
+				}else if(s[i].charAt(j) == '#') break;
 			}
 			if(inicio < s[i].length()){
-				if(s[i + 1] != null) s[i + 1] = s[i] + " " + s[i + 1];
+				if(s[i + 1] != null) s[i + 1] = s[i].substring(inicio, j) + " " + s[i + 1];
 				else erro = true;
 			}
 		}
