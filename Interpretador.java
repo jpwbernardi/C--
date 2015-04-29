@@ -7,14 +7,16 @@ class Interpretador{
 	Loop laco;
 	String linhas[];
 	boolean funcao; //Se for um laço ou funcao, true
+	boolean erro;
 
 
 	public static HashMap<String, Variavel> vars = new HashMap<String, Variavel>();
 
 
 	public Interpretador(boolean flag){
-		expressao = new Expressao();
+		expressao = new Expressao("");
 		funcao = flag;
+		erro = false;
 	}
 
 	public static void novaVar(String nome, Variavel valor){
@@ -25,77 +27,18 @@ class Interpretador{
 		return vars.get(n);
 	}
 
-	private String[] divide(String n){
-		ArrayList<String> sequencia = new ArrayList<String>();
 
-		String[] quebrado = n.split("");		//Quebra string n e guarda em quebrado
-		/*for(String x : quebrado){
-			System.out.println(x);
-		}*/
 
-		String aux = null;
-
-		int i;
-		int flag = 1; //ultima quebra foi em um Simbolo ? 1 : 0
-
-		//Forma mais simples que achei de consertar valores negativos!!! (tentar melhorar)
-		for(i = 0; i < quebrado.length; i++){
-			if(aux == null) aux = new String("");
-			if(quebrado [i].equals("#")){
-				if(aux.equals("") == false) sequencia.add(aux);
-				break;
-			} //Comentario
-			if(flag == 1 && quebrado[i].equals("+")) continue;	//Se o ultimo foi um sinal (operador) e o atual é +, ignora;
-			if((quebrado[i].equals(" ") || quebrado[i].equals("	")) && (aux.equals("") == false)){
-				if(flag != 1 && aux.equals("-") == false){
-					sequencia.add(aux);
-					if(Simbolos.pertence(aux) > 0) flag = 1;
-					aux = null;
-				}
-				//System.out.println("1");
-			}else if(Simbolos.pertence(quebrado[i]) > 0){
-				if(quebrado[i].equals("(") && aux.equals("-")){
-					sequencia.add("-1");
-					sequencia.add("*");
-					sequencia.add(quebrado[i]);
-					aux = null;
-					//System.out.println("2");
-				}else if(quebrado[i].equals("-") == false || flag == 0){
-					if(aux.equals("") == false) sequencia.add(aux);
-					sequencia.add(quebrado[i]);
-					aux = null;
-					//System.out.println("3");
-				}else{
-					if(aux.equals("") == false) sequencia.add(aux);
-					if(flag == 1) aux = new String(quebrado[i] + "");
-					//System.out.println("4");
-				}
-				if(quebrado[i].equals(")") == false && quebrado[i].equals(")") == false){
-					flag = 1;
-					//System.out.println("5");
-				}
-			}else if(quebrado[i].equals(" ") == false && quebrado[i].equals("	") == false){
-				aux += quebrado[i];
-				flag = 0;
-				//System.out.println("6");
-			}
-			//System.out.println("-> AUX  " + aux);
-		}
-
-		String[] t = new String[sequencia.size()];
-		sequencia.toArray(t);
-
-		return t;
-	}
-
-	public void atribuirValor(String[] tokens){
-		String nTokens = expressao.agrupa(tokens, 2, tokens.length - 2); //remove nome da variavel, sinal de igual e ;
-
+	public void atribuirValor(){
 		//System.out.println("Atribuição :\n" + nTokens);
-		Double resp = expressao.calcula(nTokens);
+		Double resp = expressao.calcula();
 		//Variavel aux = Interpretador.getVar(tokens[0]);
-		VariavelDouble nova = new VariavelDouble(resp);
-		Interpretador.novaVar(tokens[0], nova);
+		if(resp != null){
+			VariavelDouble nova = new VariavelDouble(resp);
+			Interpretador.novaVar(expressao.tokens[0], nova);
+		}else{
+			erro = true;
+		}
 				//TO DO variavel tokens[1] = expressao (ou qualquer coisa assim)
 		//System.out.println("Oi");
 		//System.out.println("->>>" + r);
@@ -112,44 +55,60 @@ class Interpretador{
 		return i;
 	}
 
-    public int interpreta(String l[]) {
-        this.linhas = l;
+	private String[] montaCodigo(String[] s){
+		ArrayList<String> codigo = new ArrayList<String>();
+		for(int i = 0; s[i] != null; i++){
+			s[i].replace('\n', '\0');
+			int inicio = 0;
+			for(int j = 0; j < s[i].length(); j++){
+				if(s[i].charAt(j) == ';' || s[i].charAt(j) == '{' || s[i].charAt(j) == '}'){
+					codigo.add(s[i].substring(inicio, j + 1));
+					inicio = j + 1;
+				}
+			}
+			if(inicio < s[i].length()){
+				if(s[i + 1] != null) s[i + 1] = s[i] + " " + s[i + 1];
+				else erro = true;
+			}
+		}
 
+		String[] t = new String[codigo.size()];
+		codigo.toArray(t);
+
+		return t;
+	}
+
+    public int interpreta(String l[]) {
+        linhas = montaCodigo(l);
+		if(erro) return -1;
+		/*for(String x : linhas){
+			System.out.println(x + " ");
+		}*/
         for(int i = 0; i < this.linhas.length; i++) {
 			int operacao = 0;
             if(this.linhas[i] != null) {
 				//System.out.println("1o ->" + linhas[i]);
-                String[] tokens = this.divide(linhas[i]);
-				/*System.out.println("-------------");
-				for(String x : tokens){
-					System.out.print(x + " ");
+                expressao.set(linhas[i]);
+				//System.out.println("-------------");
+				//System.out.println(expressao.comando);
+				for(String x : expressao.tokens){
+					System.out.println(x + " ");
 				}
-				System.out.println("-------------");
-*/
-				//operacao = Simbolos.pertence(tokens[0]);	//Verifica qual é a primeira palavra
+//				System.out.println("-------------");
 
-				for(int j = 0; j < tokens.length; j++){
-					//System.out.println(tokens[j]);
-					if(Simbolos.pertence(tokens[j]) > 1){
-						operacao = Simbolos.pertence(tokens[j]);
-						break;
-					}
-				}
-
+				operacao = expressao.qual();	//Verifica qual é a operação (comando) a ser executado
+				System.out.println(operacao);
 				switch(operacao){
 					case 1:
 					//	System.out.println("Só operações matematicas... algo errado");
 						break;
 					case 2:								//Atribuição
 						//System.out.println("Tem atribuicao!!");
-						atribuirValor(tokens);
+						atribuirValor();
 						break;
 					case 3:
 					//	System.out.println("Tem um if!!");
-						se = new If(Arrays.copyOfRange(tokens, 1, tokens.length - 1)); //Removendo a chave do final e o if do começo
-					/*	for(String x: se.condicao){
-							System.out.print(x + " ");
-						}*/
+						se = new If(expressao.condicao()); //Removendo a chave do final e o if do começo
 						if(se.verificaCondicao()) continue;
 						else i = fimEscopo(l, i);
 						//System.out.println("Fim ->" + i);
@@ -157,7 +116,7 @@ class Interpretador{
 						//return;
 						//System.out.println("-----> "+ linhas[i]);
 						break;
-					case 4:
+					/*//case 4:
 						//System.out.println("Tem um loop!!");
 
 						int j = fimEscopo(l, i);
@@ -178,7 +137,7 @@ class Interpretador{
 						for(String x: p.incremento){
 							System.out.println(x);
 						}
-						System.out.println("");*/
+						System.out.println("");
 						break;
 					case 5:
 						if(funcao){
@@ -202,12 +161,10 @@ class Interpretador{
 					default:
 					//	System.out.println("Algo errado??...");
 						break;
-
+						*/
 				}
-
-
-            }
+			}
         }
 		return 0;
-    }
+	}
 }

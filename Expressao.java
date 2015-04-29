@@ -2,7 +2,228 @@ import java.util.*;
 
 class Expressao{
 
-	private String shuntingYard(String infix) {
+	public String comando;
+	public String[] tokens;
+
+
+	public Expressao(String s){
+		comando = s.substring(0); //Passa copia de s para comando (não apontando para o mesmo lugar na memória!)
+		tokens = divide();
+		organiza();
+	}
+
+	public void set(String s){
+		comando = s.substring(0); //Passa copia de s para comando (não apontando para o mesmo lugar na memória!)
+		tokens = divide();
+		organiza();
+	}
+
+	private String[] divide(){
+		ArrayList<String> sequencia = new ArrayList<String>();
+
+		String[] quebrado = comando.split("");		//Quebra string n e guarda em quebrado
+		String aux = null;
+
+		int i;
+		int flag = 1; //ultima quebra foi em um Simbolo ? 1 : 0
+
+		//Forma mais simples que achei de consertar valores negativos!!! (tentar melhorar)
+		for(i = 0; i < quebrado.length; i++){
+			if(aux == null) aux = new String("");
+			if(quebrado [i].equals("#")){
+				if(aux.equals("") == false) sequencia.add(aux);
+				break;
+			} //Comentario
+			if(flag == 1 && quebrado[i].equals("+")) continue;	//Se o ultimo foi um sinal (operador) e o atual é +, ignora;
+			if((quebrado[i].equals(" ") || quebrado[i].equals("	")) && (aux.equals("") == false)){
+				if(flag != 1 && aux.equals("-") == false){
+					sequencia.add(aux);
+					if(Simbolos.pertence(aux) > 0) flag = 1;
+					aux = null;
+				}
+				//System.out.println("1");
+			}else if(Simbolos.pertence(quebrado[i]) > 0){
+				if(quebrado[i].equals("(") && aux.equals("-")){
+					sequencia.add("-1");
+					sequencia.add("*");
+					sequencia.add(quebrado[i]);
+					aux = null;
+					//System.out.println("2");
+				}else if(quebrado[i].equals("-") == false || flag == 0){
+					if(aux.equals("") == false) sequencia.add(aux);
+					sequencia.add(quebrado[i]);
+					aux = null;
+					//System.out.println("3");
+				}else{
+					if(aux.equals("") == false) sequencia.add(aux);
+					if(flag == 1) aux = new String(quebrado[i] + "");
+					//System.out.println("4");
+				}
+				if(quebrado[i].equals(")") == false && quebrado[i].equals(")") == false){
+					flag = 1;
+					//System.out.println("5");
+				}
+			}else if(quebrado[i].equals(" ") == false && quebrado[i].equals("	") == false){
+				aux += quebrado[i];
+				flag = 0;
+				//System.out.println("6");
+			}
+			//System.out.println("-> AUX  " + aux);
+		}
+
+		String[] t = new String[sequencia.size()];
+		sequencia.toArray(t);
+
+		return t;
+	}
+
+	public void organiza(){
+		comando = new String("");
+		for(int i = 0; i < tokens.length; i++){
+			if(tokens[i].length() > 1 && tokens[i].charAt(0) == '-') tokens[i] = tokens[i].replace('-', '|');
+			comando += tokens[i];
+			if(i + 1 != tokens.length) comando += " ";
+		}
+	}
+
+	public int qual(){
+		for(int j = 0; j < tokens.length; j++){
+			int ret = Simbolos.pertence(tokens[j]);
+			if(ret > 1) return ret;
+		}
+		return -1;
+	}
+
+	public String condicao(){
+		if(qual() == 3){ //É um if!
+			return comando.substring(2, comando.length() - 2);
+		}
+		return null;
+	}
+
+	public boolean percorre(int inic){ //Recebe String[] com ( na primeira posição
+		int i = inic;
+		int j;
+
+		/*for(String x: a){
+			System.out.println(x);
+		}*/
+
+		for(j = inic + 1; j < tokens.length && !tokens[j].equals(")"); j++)
+			if (tokens[j].equals("(")) percorre(j);
+
+
+		System.out.println("-> " + comando);
+		/*System.out.println("->>>>>>>>>>>>>iiii>>>>>>>>>>>>>>>>>>");
+		for(int b = 0; b < a.length; b++){
+			System.out.println(a[b]);
+		}
+
+		System.out.println("\n->>>>>>>>>>>>>>>>iiii>>>>>>>>>>>>>>>");
+		//System.out.println("Oioioioioioi");*/
+
+		if (resolve(i, j) > 0) return true;
+		else return false;
+	}
+
+	public double resolve(int inic, int fim){
+		int k = 0, i, j;
+		Expressao aux = new Expressao("");
+		double t1, t2;
+		String t;
+		//Descobre se há operação de comparação
+		for(i = inic + 1; i < fim; i++){
+			k = Simbolos.pertence(tokens[i]);
+			if (k >= 6 && k <= 13) break;
+		}
+
+		if(i == fim){ //Se não há comparação, resolve a expressao
+			t = new String("");
+			for(i = inic + 1; i < fim; i++) t += tokens[i] + " ";
+			t += " ;";	aux.set(t);
+
+			for(i = 0; i <= inic; i++) t += tokens[i] + " ";
+			t += aux.calcula().toString();
+		//	System.out.println("aux: " + aux.calcula().toString());
+			for(i = fim; i < tokens.length; i++) t += tokens[i] + " ";
+
+		//	System.out.println("t(set) = " + t);
+			this.set(t);
+			return aux.calcula();
+
+		}else{  //Caso contrario, quebra a expressao na comparação e resolve independentemente
+			t = new String("");
+			for(j = inic + 1; j < i; j++) t += tokens[j] + " ";
+			t += " ;";	aux.set(t);
+		//	System.out.println("t1 = " + aux.comando);
+			t1 = aux.calcula();
+		//	System.out.println("aux1: " + t1);
+			//expressao[i - 1] = this.calcula(agrupa(expressao, inic + 1, i - 1)).toString();
+
+			t = new String("");
+			for(j++; j < fim; j++) t += tokens[j] + " ";
+			t += " ;";	aux.set(t);
+		//	System.out.println("t2 = " + aux.comando);
+			t2 = aux.calcula();
+
+		//	System.out.println("aux2: " + t2);
+			//expressao[i + 1] = this.calcula(agrupa(expressao, i + 1, fim - 1)).toString();
+		}
+
+		/*System.out.println("Aqui amigo :");
+		for(String x: expressao){
+			System.out.println(x);
+		}*/
+		//Transforma valores resultantes para double
+
+		//Apaga as expressões resolvidas
+		t = new String("");
+		for(i = 0; i < inic; i++) t += tokens[i] + " ";
+
+		switch(k){
+			case 6:
+				if (t1 > t2) t += "1 ";
+				else t += "0 ";
+				break;
+			case 7:
+				if (t1 < t2) t += "1 ";
+				else t += "0 ";
+				break;
+			case 8:
+				if (t1 >= t2) t += "1 ";
+				else t += "0 ";
+				break;
+			case 9:
+				if (t1 <= t2) t += "1 ";
+				else t += "0 ";
+				break;
+			case 10: //IGUAL
+				if (t1 == t2) t += "1 ";
+				else t += "0 ";
+				break;
+			case 11: //DIF
+				if (t1 != t2) t += "1 ";
+				else t += "0 ";
+				break;
+			case 12: //EE
+				if (t1 != 0 && t2 != 0) t += "1 ";
+				else t += "0 ";
+				break;
+			case 13: //OU
+				if (t1 != 0 || t2 != 0) t += "1 ";
+				else t += "0 ";
+				break;
+		}
+		for(i = fim + 1; i < tokens.length; i++) t += tokens[i] + " ";
+		this.set(t);
+		//System.out.println("Fim Aqui amigo");
+		return aux.calcula();
+	}
+
+//============================================= Velho
+
+	private String shuntingYard(int ini){
+		String infix = comando.substring(ini, comando.length() - 2);
         final String ops = "-+/*%^";
         StringBuilder sb = new StringBuilder();
         Stack<Integer> s = new Stack<>();
@@ -68,7 +289,7 @@ class Expressao{
 		return ret;
     }
 
-    public String agrupa(String[] a, int ini, int fim){
+    /*public String agrupa(String[] a, int ini, int fim){
 		//System.out.println("Oi");
         String ret = new String("");
         //Interpretador b = new Interpretador(false);
@@ -112,12 +333,16 @@ class Expressao{
 		}
 		//System.out.println(ret);
         return ret;
-    }
+    }*/
 
 	//----------- Expressões Aritméticas
-	public Double calcula(String n){
+	public Double calcula(){
+		String n = new String("");
 		int i;
-		n = shuntingYard(n);
+		if(qual() == 2)	n = shuntingYard(comando.indexOf('=') + 2); //Atribuição
+		else n = shuntingYard(0);
+
+		System.out.println("CALCULA -> " + n);
 
 		while(Simbolos.operadores(n) && (n.length() > 1 ? Simbolos.operadores(n.substring(1)) : true)){ //Enquanto há operadores
 			int x0ant = 0;
@@ -182,90 +407,8 @@ class Expressao{
 
 	//-------------    Expressões booleanas
 
-	public boolean percorre(String[] a, int inic){ //Recebe String[] com ( na primeira posição
-		int i = inic;
-		int j;
+	/*
 
-		/*for(String x: a){
-			System.out.println(x);
-		}*/
-
-		for(j = inic + 1; j < a.length && !a[j].equals(")"); j++)
-			if (a[j].equals("(")) percorre(a, j);
-
-		/*System.out.println("->>>>>>>>>>>>>iiii>>>>>>>>>>>>>>>>>>");
-		for(int b = 0; b < a.length; b++){
-			System.out.println(a[b]);
-		}
-		System.out.println("\n->>>>>>>>>>>>>>>>iiii>>>>>>>>>>>>>>>");*/
-		//System.out.println("Oioioioioioi");
-		if (resolve(a, i, j) > 0) return true;
-		else return false;
-	}
-
-	public double resolve(String[] expressao, int inic, int fim){
-		int k = 0, i;
-
-
-
-		//Descobre se há operação de comparação
-		for(i = inic + 1; i < fim; i++){
-			k = Simbolos.pertence(expressao[i]);
-			if (k >= 6 && k <= 13) break;
-		}
-
-		if(i == fim){ //Se não há comparação, resolve a expressao
-			expressao[i] = this.calcula(agrupa(expressao, inic, fim)).toString();
-			for(int h = inic; h < i; h++) expressao[h] = " ";
-			return toDouble(expressao[i]);
-		}else{  //Caso contrario, quebra a expressao na comparação e resolve independentemente
-			//System.out.println(inic + "   " +  i + "   " + fim);
-			/*String t =
-			System.out.println(t);*/
-			expressao[i - 1] = this.calcula(agrupa(expressao, inic + 1, i - 1)).toString();
-			expressao[i + 1] = this.calcula(agrupa(expressao, i + 1, fim - 1)).toString();
-		}
-
-		/*System.out.println("Aqui amigo :");
-		for(String x: expressao){
-			System.out.println(x);
-		}*/
-		//Transforma valores resultantes para double
-		double t1 = toDouble(expressao[i - 1]), t2 = toDouble(expressao[i + 1]);
-
-		//Apaga as expressões resolvidas
-		for(int h = inic; h <= fim; h++) expressao[h] = " ";
-		expressao[i] = "0";
-
-		switch(k){
-			case 6:
-				if (t1 > t2) expressao[i] = "1";
-				break;
-			case 7:
-				if (t1 < t2) expressao[i] = "1";
-				break;
-			case 8:
-				if (t1 >= t2) expressao[i] = "1";
-				break;
-			case 9:
-				if (t1 <= t2) expressao[i] = "1";
-				break;
-			case 10: //IGUAL
-				if (t1 == t2) expressao[i] = "1";
-				break;
-			case 11: //DIF
-				if (t1 != t2) expressao[i] = "1";
-				break;
-			case 12: //EE
-				if (t1 != 0 && t2 != 0) expressao[i] = "1";
-				break;
-			case 13: //OU
-				if (t1 != 0 || t2 != 0) expressao[i] = "1";
-				break;
-		}
-
-		//System.out.println("Fim Aqui amigo");
-		return toDouble(expressao[i]);
-	}
+	*/
 
 }

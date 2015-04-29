@@ -1,9 +1,10 @@
 import java.util.*;
 class If{
-	String[] condicao;
+	Expressao condicao;
 
-	public If(String[] a){
-		condicao = Arrays.copyOfRange(a, 0, a.length);
+	public If(String cond){
+		condicao = new Expressao("(" + cond + ") ;");
+		System.out.println(condicao.comando);
 		/*System.out.println("Condição do if:");
 		for(String x: condicao){
 			System.out.println(x);
@@ -13,9 +14,10 @@ class If{
 	}
 
 	public boolean verificaCondicao(){
-		Expressao ex = new Expressao();
+		//Expressao ex = new Expressao();
+		//return true;
 		//boolean aux = ;
 		//System.out.println(aux);
-		return ex.percorre(condicao, 0);
+		return condicao.percorre(0);
 	}
 }

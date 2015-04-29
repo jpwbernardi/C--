@@ -4,12 +4,12 @@ class Loop{
     String[] atribuicao;
     String[] incremento;
 
-    public Loop(String[] bloco, String[] comando){
+    /*public Loop(String[] bloco, String[] comando){
         int aux, i;
 
         /*for(String p: bloco){
             System.out.println(p);
-        }*/
+        }
 
         for(i = 0; i < comando.length; i++)
             if(comando[i].equals(";")) break;
@@ -40,9 +40,9 @@ class Loop{
         for(String a: aux){
             System.out.println(a);
         }
-        System.out.println("~~~~~~");*/
+        System.out.println("~~~~~~");
         //System.out.println(aux1);
         while(se.verificaCondicao() && x.interpreta(bloco) == 0)
             se = new If(aux);
-    }
+    }*/
 }
