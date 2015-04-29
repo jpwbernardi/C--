@@ -57,7 +57,7 @@ class Interpretador{
 
 	private String[] montaCodigo(String[] s){
 		ArrayList<String> codigo = new ArrayList<String>();
-		for(int i = 0; s[i] != null; i++){
+		for(int i = 0; i < s.length && s[i] != null; i++){
 			s[i].replace('\n', '\0');
 			int inicio = 0, j;
 			for(j = 0; j < s[i].length(); j++){
@@ -81,9 +81,14 @@ class Interpretador{
     public int interpreta(String l[]) {
         linhas = montaCodigo(l);
 		if(erro) return -1;
-		/*for(String x : linhas){
-			System.out.println(x + " ");
+
+		/*if(funcao){
+			for(String x : linhas){
+				System.out.println(x + " ");
+			}
+			return 0;
 		}*/
+
         for(int i = 0; i < this.linhas.length; i++) {
 			int operacao = 0;
             if(this.linhas[i] != null) {
@@ -91,13 +96,13 @@ class Interpretador{
                 expressao.set(linhas[i]);
 				//System.out.println("-------------");
 				//System.out.println(expressao.comando);
-				for(String x : expressao.tokens){
+				/*for(String x : expressao.tokens){
 					System.out.println(x + " ");
-				}
+				}*/
 //				System.out.println("-------------");
 
 				operacao = expressao.qual();	//Verifica qual é a operação (comando) a ser executado
-				System.out.println(operacao);
+				//System.out.println(operacao);
 				switch(operacao){
 					case 1:
 					//	System.out.println("Só operações matematicas... algo errado");
@@ -111,20 +116,20 @@ class Interpretador{
 						se = new If(expressao.condicao()); //Removendo a chave do final e o if do começo
 						if(se.verificaCondicao()) continue;
 						else i = fimEscopo(i);
-						//System.out.println("Fim ->" + i);
+						//System.out.println("Sobrou ->" + se.condicao.comando);
 						//}
 						//return;
 						//System.out.println("-----> "+ linhas[i]);
 						break;
-					/*//case 4:
+					case 4:
 						//System.out.println("Tem um loop!!");
 
-						int j = fimEscopo(l, i);
+						int j = fimEscopo(i);
 
 					//	System.out.println("j = " + j + "    i = " + i);
 
-						Loop p = new Loop(Arrays.copyOfRange(l, i + 1, j), Arrays.copyOfRange(tokens, 1, tokens.length - 1));
-						i = j;
+						Loop p = new Loop(Arrays.copyOfRange(linhas, i + 1, j), expressao.condicao());
+						i = j + 1;
 						/*System.out.println("------");
 						for(String x: p.atribuicao){
 							System.out.println(x);

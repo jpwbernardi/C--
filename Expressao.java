@@ -81,7 +81,16 @@ class Expressao{
 		comando = new String("");
 		for(int i = 0; i < tokens.length; i++){
 			if(tokens[i].length() > 1 && tokens[i].charAt(0) == '-') tokens[i] = tokens[i].replace('-', '|');
-			comando += tokens[i];
+			if(toDouble(tokens[i]) == null && Simbolos.pertence(tokens[i]) < 0){ //Se não é numero nem simbolo (váriavel)
+				Variavel aux;
+				if(tokens[i].charAt(0) == '-'){
+					aux = Interpretador.getVar(tokens[i].substring(1));
+					if(aux != null) comando += "-" + aux.getValor().toString();
+				}else{
+					aux = Interpretador.getVar(tokens[i]);
+					if(aux != null) comando += aux.getValor().toString();
+				}
+			}else comando += tokens[i];
 			if(i + 1 != tokens.length) comando += " ";
 		}
 	}
@@ -95,8 +104,10 @@ class Expressao{
 	}
 
 	public String condicao(){
-		if(qual() == 3){ //É um if!
+		if(qual() == 3){ //É um if
 			return comando.substring(2, comando.length() - 2);
+		}else if(qual() == 4){
+			return comando.substring(4, comando.length() - 2);
 		}
 		return null;
 	}
@@ -113,7 +124,7 @@ class Expressao{
 			if (tokens[j].equals("(")) percorre(j);
 
 
-		System.out.println("-> " + comando);
+		//System.out.println("-> " + comando);
 		/*System.out.println("->>>>>>>>>>>>>iiii>>>>>>>>>>>>>>>>>>");
 		for(int b = 0; b < a.length; b++){
 			System.out.println(a[b]);
@@ -342,7 +353,7 @@ class Expressao{
 		if(qual() == 2)	n = shuntingYard(comando.indexOf('=') + 2); //Atribuição
 		else n = shuntingYard(0);
 
-		System.out.println("CALCULA -> " + n);
+		//System.out.println("CALCULA -> " + n);
 
 		while(Simbolos.operadores(n) && (n.length() > 1 ? Simbolos.operadores(n.substring(1)) : true)){ //Enquanto há operadores
 			int x0ant = 0;

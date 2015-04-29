@@ -4,7 +4,7 @@ class If{
 
 	public If(String cond){
 		condicao = new Expressao("(" + cond + ") ;");
-		System.out.println(condicao.comando);
+		//System.out.println(condicao.comando);
 		/*System.out.println("Condição do if:");
 		for(String x: condicao){
 			System.out.println(x);

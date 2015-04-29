@@ -1,47 +1,45 @@
 import java.util.*;
 class Loop{
     If se;
+    String condicao;
+    String[] bloco;
+    boolean erro;
 
-
-    /*public Loop(String[] bloco, String[] comando){
-        int aux, i;
-
-		ArrayList<String> tmp = new ArrayList<String>();
-        tmp.add("(");
-        for(int i = 0; i < comando.length; i++) tmp.add(comando[i]);
-        tmp.add(")");
-
-        String[] condicao = new String[tmp.size()];
-        tmp.toArray(condicao);
+    public Loop(String[] b, String cond){
+        bloco = b;
+        condicao = cond;
         se = new If(condicao);
+        erro = false;
 
-        /*for(String p: bloco){
-            System.out.println(p);
-        }
+        //System.out.println("Bloco: ");
+        //for(String x: bloco) System.out.println(x);
+        //System.out.println("");
+        //System.out.println("LOOP -> " + se.condicao.comando);
+        executa();
+    }
 
-        for(i = 0; i < comando.length; i++)
-            if(comando[i].equals(";")) break;
-        atribuicao = Arrays.copyOfRange(comando, 1, i);
-
-        for(aux = ++i; i < comando.length; i++)
-            if(comando[i].equals(";")) break;
-
-        incremento = Arrays.copyOfRange(comando, i + 1, comando.length - 2);*/
-    //    executa(bloco);
-//    }
-
-    /*private void executa(String[] bloco){
-        String[] aux = Arrays.copyOfRange(se.condicao, 0, se.condicao.length);
+    private void executa(){
+        String aux = se.condicao.comando.substring(0);
         Interpretador x = new Interpretador(true);
 
-        //int i = 5; //Para não ficar em loop infinito (Condição sempre é estatica já que não trabalhamos com variaveis ainda)
+        int i = 5; //Para não ficar em loop infinito (Condição sempre é estatica já que não trabalhamos com variaveis ainda)
         /*System.out.println("~~~~~~");
         for(String a: aux){
             System.out.println(a);
         }
         System.out.println("~~~~~~");
-        //System.out.println(aux1);
-        while(se.verificaCondicao() && x.interpreta(bloco) == 0)
-            se = new If(aux);
-    }*/
+        //System.out.println(aux1);*/
+        while(se.verificaCondicao() && i > 0){
+            i--;
+            x.interpreta(bloco);
+            //if( != 0){
+            //System.out.println("1");
+            //    erro = true;
+        //        break;
+    //        }
+            //System.out.println("OOI");
+            se = new If(condicao);
+        }
+
+    }
 }
