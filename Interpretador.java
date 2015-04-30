@@ -114,8 +114,12 @@ class Interpretador{
 					case 3:
 					//	System.out.println("Tem um if!!");
 						se = new If(expressao.condicao()); //Removendo a chave do final e o if do começo
+						//boolean aux =
+						//System.out.println("Inicio Escopo = " + i);
+						//System.out.println(aux);
 						if(se.verificaCondicao()) continue;
 						else i = fimEscopo(i);
+						//System.out.println("Fim Escopo = " + i);
 						//System.out.println("Sobrou ->" + se.condicao.comando);
 						//}
 						//return;
@@ -129,7 +133,7 @@ class Interpretador{
 					//	System.out.println("j = " + j + "    i = " + i);
 
 						Loop p = new Loop(Arrays.copyOfRange(linhas, i + 1, j), expressao.condicao());
-						i = j + 1;
+						i = j;
 						/*System.out.println("------");
 						for(String x: p.atribuicao){
 							System.out.println(x);
@@ -146,7 +150,7 @@ class Interpretador{
 						break;
 					*/case 5:
 						if(funcao){
-							System.out.println("Tem um break aqui!");
+							//System.out.println("Tem um break aqui!");
 							return 1;
 						}
 						break;
@@ -158,15 +162,14 @@ class Interpretador{
 						break;
 					/*case 16:
 						//System.out.println("Tem um ;");
-						break;
+						break;*/
 
 					case 20:
 						//System.out.println("PRINT");
-						Printa printa = new Printa(Arrays.copyOfRange(tokens, 2, tokens.length - 2));
+						Printa printa = new Printa(expressao.condicao());
 					default:
 					//	System.out.println("Algo errado??...");
 						break;
-						*/
 				}
 			}
         }

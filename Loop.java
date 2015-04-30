@@ -14,7 +14,7 @@ class Loop{
         //System.out.println("Bloco: ");
         //for(String x: bloco) System.out.println(x);
         //System.out.println("");
-        System.out.println("LOOP -> " + condicao);
+        //System.out.println("LOOP -> " + condicao);
         executa();
     }
 
@@ -29,8 +29,7 @@ class Loop{
         }
         System.out.println("~~~~~~");
         //System.out.println(aux1);*/
-        while(se.verificaCondicao()){
-            x.interpreta(bloco);
+        while(se.verificaCondicao() && x.interpreta(bloco) != 1){
             //if( != 0){
             //System.out.println("1");
             //    erro = true;

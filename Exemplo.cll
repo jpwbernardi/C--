@@ -1,16 +1,19 @@
 i = 2;  #Outro teste
-num = 101;#teste
+num = 10;#teste
 flag = 0; #Teste de comentario
 loop((i * i) MENOR num){ #Enquanto compilar estou de boa
-    if((num % i) IGUAL 0){
+    if((num % i)
+        IGUAL 0){
+
+
         flag = 1;
         break;
     }
     i = i + 1;
 }
 if(flag IGUAL 1){
-    printa("Nao eh primo!"); #Outro teste
+    printa("Nao eh primo!\n"); #Outro teste
 }
 if(flag IGUAL 0){
-    printa("eh primo!");
+    printa("eh primo!\n");
 }

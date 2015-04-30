@@ -9,13 +9,13 @@ class Expressao{
 	public Expressao(String s){
 		comando = s.substring(0); //Passa copia de s para comando (não apontando para o mesmo lugar na memória!)
 		tokens = divide();
-		organiza();
+		if(tokens.length >= 1 && Simbolos.pertence(tokens[0]) != 20) organiza(); //Se for diferente de printa, organiza
 	}
 
 	public void set(String s){
 		comando = s.substring(0); //Passa copia de s para comando (não apontando para o mesmo lugar na memória!)
 		tokens = divide();
-		organiza();
+		if(tokens.length >= 1 && Simbolos.pertence(tokens[0]) != 20) organiza(); //Se for diferente de printa, organiza
 	}
 
 	private String[] divide(){
@@ -105,13 +105,14 @@ class Expressao{
 
 	public String condicao(){
 		String ret = new String("");
-		if(qual() == 3 || qual() == 4){ //É um if
+		int a = qual();
+		if(a == 3 || a == 4){ //É um if ou loop
 			for(int i = 1; i < tokens.length - 1; i++) ret += tokens[i] + " ";
 			//return comando.substring(2, comando.length() - 2);
 			return ret;
-		}/*else if(qual() == 4){
-			return comando.substring(4, comando.length() - 2);
-		}*/
+		}else if(a == 20){ //É um print
+			return comando.substring(comando.indexOf('(') + 1, comando.length() - 2);
+		}
 		return null;
 	}
 
