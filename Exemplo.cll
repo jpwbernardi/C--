@@ -1,7 +1,8 @@
 i = 2;  #Outro teste
-num = 10;#teste
+printa("Digite um numero: ");
+scan(num); #teste
 flag = 0; #Teste de comentario
-loop((i * i) MENOR num){ #Enquanto compilar estou de boa
+loop((i * i) MENORI num){ #Enquanto compilar estou de boa
     if((num % i)
         IGUAL 0){
 

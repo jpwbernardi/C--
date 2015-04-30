@@ -82,11 +82,8 @@ class Interpretador{
         linhas = montaCodigo(l);
 		if(erro) return -1;
 
-		/*if(funcao){
-			for(String x : linhas){
-				System.out.println(x + " ");
-			}
-			return 0;
+		/*for(String x : linhas){
+			System.out.println(x + " ");
 		}*/
 
         for(int i = 0; i < this.linhas.length; i++) {
@@ -102,7 +99,7 @@ class Interpretador{
 //				System.out.println("-------------");
 
 				operacao = expressao.qual();	//Verifica qual é a operação (comando) a ser executado
-				//System.out.println(operacao);
+				//System.out.println("-> OP: " + operacao);
 				switch(operacao){
 					case 1:
 					//	System.out.println("Só operações matematicas... algo errado");
@@ -163,13 +160,20 @@ class Interpretador{
 					/*case 16:
 						//System.out.println("Tem um ;");
 						break;*/
-
-					//case 20:
-						//System.out.println("PRINT");
-						//Printa printa = new Printa(expressao.condicao());
-					default:
-					//	System.out.println("Algo errado??...");
+					case 14:
+					case 15:
+					case 20:
+						//Se for printf, resolve na propria expressao!
+						//Se for chaves, ignora!
 						break;
+					case 21:
+						//System.out.println("Oi");
+						Scan scan = new Scan(expressao);
+						scan.le();
+						break;
+					default:
+						System.out.println("Algo errado... ( " + i + " )");
+						return 0;
 				}
 			}
         }
