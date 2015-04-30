@@ -3,6 +3,7 @@ class Simbolos{
 		if(n.equals("+") || n.equals("-") || n.equals("*") || n.equals("/") || n.equals("%") || n.equals("^") || n.equals("(") || n.equals(")") || n.equals("\"")) return 1;
 		else if(n.equals("=")) return 2; //Não alterar
 		else if(n.equals("if")) return 3;
+		else if(n.equals("else")) return 22;
 		else if(n.equals("loop")) return 4;
 		else if(n.equals("break")) return 5;
 		else if(n.equals("continue")) return 17;

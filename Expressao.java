@@ -234,10 +234,13 @@ class Expressao{
 	private void printa(){
         //System.out.println("Imprime: " + imprime);
         int flag = 0, escape = 0, i;
-        String t, imprime = this.condicao();
+        String t = null, imprime = this.condicao();
+		//System.out.println("printa->" + imprime);
         for(i = 0; i < imprime.length(); i++){
             char x = imprime.charAt(i);
             if(x == '\"'){
+				if(t != null) System.out.println(Interpretador.getVar(t));
+				t = null;
                 flag = (flag + 1) % 2;
                 escape = 0;
                 continue;
@@ -254,19 +257,29 @@ class Expressao{
                     System.out.print(x);
                 }
             }else if(flag == 0){
-                int primeiro = 1, j;
-                t = new String("");
-                for(j = i; j < imprime.length(); j++){
+
+				if(x == ' ' || x == '	'){
+					if(t != null) System.out.print(Interpretador.getVar(t));
+					t = null;
+					continue;
+				}
+
+                if(t == null) t = new String("");
+				t += x;
+                /*for(j = i;imprime.charAt(j) != ('\"') && imprime.charAt(j) != ')' && j < imprime.length(); j++){
                     if(imprime.charAt(j) == ' ' && primeiro != 1){
                         System.out.print(Interpretador.getVar(t));
                         primeiro = 1;
                     }else{
-                        t += imprime.charAt(j) + " ";
+                        if(imprime.charAt(j) != ' ' && imprime.charAt(j) != '	') t += imprime.charAt(j) + " ";
                         primeiro = 0;
                     }
                 }
+				i = j;*/
             }
         }
+		if(t != null) System.out.println(Interpretador.getVar(t));
+		t = null;
     }
 
 //============================================= Velho

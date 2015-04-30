@@ -1,0 +1,11 @@
+printa("Digite dois numeros: ");
+scan(a);
+scan(b);
+#printa("bug?");
+resp = a + b;
+
+if(resp MENOR 2){
+    printa("Oioizinho " a " E tambem "b "\n");
+}
+
+printa("resp = " resp "\n");
