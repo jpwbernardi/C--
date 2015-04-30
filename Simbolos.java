@@ -18,8 +18,6 @@ class Simbolos{
 		else if(n.equals("}")) return 15;
 		else if(n.equals(";")) return 16;
 		else if(n.equals("printa")) return 20;
-
-
 		else return -1;
 	}
 

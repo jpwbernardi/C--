@@ -9,13 +9,17 @@ class Expressao{
 	public Expressao(String s){
 		comando = s.substring(0); //Passa copia de s para comando (não apontando para o mesmo lugar na memória!)
 		tokens = divide();
-		if(tokens.length >= 1 && Simbolos.pertence(tokens[0]) != 20) organiza(); //Se for diferente de printa, organiza
+		if(tokens.length >= 1)
+		 	if(Simbolos.pertence(tokens[0]) != 20) organiza(); //Se for diferente de printa, organiza
+			else printa();
 	}
 
 	public void set(String s){
 		comando = s.substring(0); //Passa copia de s para comando (não apontando para o mesmo lugar na memória!)
 		tokens = divide();
-		if(tokens.length >= 1 && Simbolos.pertence(tokens[0]) != 20) organiza(); //Se for diferente de printa, organiza
+		if(tokens.length >= 1)
+		 	if(Simbolos.pertence(tokens[0]) != 20) organiza(); //Se for diferente de printa, organiza
+			else printa();
 	}
 
 	private String[] divide(){
@@ -226,6 +230,44 @@ class Expressao{
 		//System.out.println("Fim Aqui amigo");
 		return toDouble(tokens[fim]);
 	}
+
+	private void printa(){
+        //System.out.println("Imprime: " + imprime);
+        int flag = 0, escape = 0, i;
+        String t, imprime = this.condicao();
+        for(i = 0; i < imprime.length(); i++){
+            char x = imprime.charAt(i);
+            if(x == '\"'){
+                flag = (flag + 1) % 2;
+                escape = 0;
+                continue;
+            }
+            if(flag == 1){
+                if(x == '\\' && escape == 0) escape = 1;
+                else if(escape == 1){
+                    if(x == '\\' || x == '\"') System.out.print(x);
+                    else if(x == 'n') System.out.print("\n");
+                    else System.out.print("\\" + x);
+                    escape = 0;
+                }else{
+                    escape = 0;
+                    System.out.print(x);
+                }
+            }else if(flag == 0){
+                int primeiro = 1, j;
+                t = new String("");
+                for(j = i; j < imprime.length(); j++){
+                    if(imprime.charAt(j) == ' ' && primeiro != 1){
+                        System.out.print(Interpretador.getVar(t));
+                        primeiro = 1;
+                    }else{
+                        t += imprime.charAt(j) + " ";
+                        primeiro = 0;
+                    }
+                }
+            }
+        }
+    }
 
 //============================================= Velho
 

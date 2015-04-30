@@ -164,9 +164,9 @@ class Interpretador{
 						//System.out.println("Tem um ;");
 						break;*/
 
-					case 20:
+					//case 20:
 						//System.out.println("PRINT");
-						Printa printa = new Printa(expressao.condicao());
+						//Printa printa = new Printa(expressao.condicao());
 					default:
 					//	System.out.println("Algo errado??...");
 						break;
