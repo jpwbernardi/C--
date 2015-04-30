@@ -1,7 +1,7 @@
 i = 2;  #Outro teste
 num = 101;#teste
 flag = 0; #Teste de comentario
-loop(10; (i * i) MENOR num; 2){ #Enquanto compilar estou de boa
+loop((i * i) MENOR num){ #Enquanto compilar estou de boa
     if((num % i) IGUAL 0){
         flag = 1;
         break;

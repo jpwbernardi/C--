@@ -144,9 +144,9 @@ class Interpretador{
 						}
 						System.out.println("");
 						break;
-					case 5:
+					*/case 5:
 						if(funcao){
-						//	System.out.println("Tem um break aqui!");
+							System.out.println("Tem um break aqui!");
 							return 1;
 						}
 						break;
@@ -156,7 +156,7 @@ class Interpretador{
 							i = linhas.length;
 						}
 						break;
-					case 16:
+					/*case 16:
 						//System.out.println("Tem um ;");
 						break;
 

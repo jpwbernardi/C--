@@ -104,11 +104,14 @@ class Expressao{
 	}
 
 	public String condicao(){
-		if(qual() == 3){ //É um if
-			return comando.substring(2, comando.length() - 2);
-		}else if(qual() == 4){
+		String ret = new String("");
+		if(qual() == 3 || qual() == 4){ //É um if
+			for(int i = 1; i < tokens.length - 1; i++) ret += tokens[i] + " ";
+			//return comando.substring(2, comando.length() - 2);
+			return ret;
+		}/*else if(qual() == 4){
 			return comando.substring(4, comando.length() - 2);
-		}
+		}*/
 		return null;
 	}
 
@@ -153,13 +156,15 @@ class Expressao{
 			for(i = inic + 1; i < fim; i++) t += tokens[i] + " ";
 			t += " ;";	aux.set(t);
 
-			for(i = 0; i <= inic; i++) t += tokens[i] + " ";
-			t += aux.calcula().toString();
+			for(i = inic; i < fim; i++) tokens[i] = " ";
+
+			tokens[fim] = aux.calcula().toString();
+		//	t += aux.calcula().toString();
 		//	System.out.println("aux: " + aux.calcula().toString());
-			for(i = fim; i < tokens.length; i++) t += tokens[i] + " ";
+		//	for(i = fim; i < tokens.length; i++) t += tokens[i] + " ";
 
 		//	System.out.println("t(set) = " + t);
-			this.set(t);
+
 			return aux.calcula();
 
 		}else{  //Caso contrario, quebra a expressao na comparação e resolve independentemente
@@ -188,47 +193,37 @@ class Expressao{
 		//Transforma valores resultantes para double
 
 		//Apaga as expressões resolvidas
-		t = new String("");
-		for(i = 0; i < inic; i++) t += tokens[i] + " ";
-
+		for(i = inic; i < fim; i++) tokens[i] = " ";
+		tokens[fim] = "0";
 		switch(k){
 			case 6:
-				if (t1 > t2) t += "1 ";
-				else t += "0 ";
+				if (t1 > t2) tokens[fim] = "1";
 				break;
 			case 7:
-				if (t1 < t2) t += "1 ";
-				else t += "0 ";
+				if (t1 < t2) tokens[fim] = "1";
 				break;
 			case 8:
-				if (t1 >= t2) t += "1 ";
-				else t += "0 ";
+				if (t1 >= t2) tokens[fim] = "1";
 				break;
 			case 9:
-				if (t1 <= t2) t += "1 ";
-				else t += "0 ";
+				if (t1 <= t2) tokens[fim] = "1";
 				break;
 			case 10: //IGUAL
-				if (t1 == t2) t += "1 ";
-				else t += "0 ";
+				if (t1 == t2) tokens[fim] = "1";
 				break;
 			case 11: //DIF
-				if (t1 != t2) t += "1 ";
-				else t += "0 ";
+				if (t1 != t2) tokens[fim] = "1";
 				break;
 			case 12: //EE
-				if (t1 != 0 && t2 != 0) t += "1 ";
-				else t += "0 ";
+				if (t1 != 0 && t2 != 0) tokens[fim] = "1";
 				break;
 			case 13: //OU
-				if (t1 != 0 || t2 != 0) t += "1 ";
-				else t += "0 ";
+				if (t1 != 0 || t2 != 0) tokens[fim] = "1";
 				break;
 		}
-		for(i = fim + 1; i < tokens.length; i++) t += tokens[i] + " ";
-		this.set(t);
+
 		//System.out.println("Fim Aqui amigo");
-		return aux.calcula();
+		return toDouble(tokens[fim]);
 	}
 
 //============================================= Velho
