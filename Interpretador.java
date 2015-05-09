@@ -24,7 +24,8 @@ class Interpretador{
 	}
 
 	public static Variavel getVar(String n) {
-		return vars.get(n);
+		VariavelDouble erro = new VariavelDouble(0.0);
+		return vars.get(n) != null ? vars.get(n) : erro;
 	}
 
 
@@ -33,7 +34,7 @@ class Interpretador{
 		//System.out.println("Atribuição :\n" + nTokens);
 		Double resp = expressao.calcula();
 		//Variavel aux = Interpretador.getVar(tokens[0]);
-		if(resp != null){
+		if(resp != null && expressao.tokens[0].matches("([a-z]+\\d*)+")){
 			VariavelDouble nova = new VariavelDouble(resp);
 			Interpretador.novaVar(expressao.tokens[0], nova);
 		}else{
@@ -64,11 +65,15 @@ class Interpretador{
 				if(s[i].charAt(j) == ';' || s[i].charAt(j) == '{' || s[i].charAt(j) == '}'){
 					codigo.add(s[i].substring(inicio, j + 1));
 					inicio = j + 1;
-				}else if(s[i].charAt(j) == '#') break;
+				}else if(s[i].charAt(j) == '#' && (j - 1 < 0 || s[i].charAt(j - 1) != '\\')) break;
 			}
 			if(inicio < s[i].length()){
 				if(s[i + 1] != null) s[i + 1] = s[i].substring(inicio, j) + " " + s[i + 1];
-				else erro = true;
+				else{
+					erro = true;
+					System.out.println("Erro ao montar o código na linha: " + (i + 1));
+					break;
+				}
 			}
 		}
 
@@ -118,7 +123,7 @@ class Interpretador{
 						else i = fimEscopo(i);
 						//System.out.println("Fim Escopo = " + i);
 						//System.out.println("Sobrou ->" + se.condicao.comando);
-						//}
+						//
 						//return;
 						//System.out.println("-----> "+ linhas[i]);
 						break;
@@ -130,6 +135,7 @@ class Interpretador{
 					//	System.out.println("j = " + j + "    i = " + i);
 
 						Loop p = new Loop(Arrays.copyOfRange(linhas, i + 1, j), expressao.condicao());
+						erro = p.erro;
 						i = j;
 						/*System.out.println("------");
 						for(String x: p.atribuicao){
@@ -169,11 +175,16 @@ class Interpretador{
 					case 21:
 						//System.out.println("Oi");
 						Scan scan = new Scan(expressao);
+						erro = scan.erro;
 						scan.le();
 						break;
 					default:
 						System.out.println("Algo errado... ( " + i + " )");
 						return 0;
+				}
+				if(erro){
+					System.out.println("\nErro no comando: " + linhas[i]);
+					return 2;
 				}
 			}
         }

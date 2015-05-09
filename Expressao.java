@@ -83,16 +83,38 @@ class Expressao{
 
 	public void organiza(){
 		comando = new String("");
+		//System.out.println("TOKENS Organiza::  ");
+		//for(String x: tokens){
+		//	System.out.println(x);
+		//}
 		for(int i = 0; i < tokens.length; i++){
 			if(tokens[i].length() > 1 && tokens[i].charAt(0) == '-') tokens[i] = tokens[i].replace('-', '|');
 			if(toDouble(tokens[i]) == null && Simbolos.pertence(tokens[i]) < 0){ //Se não é numero nem simbolo (váriavel)
 				Variavel aux;
-				if(tokens[i].charAt(0) == '-'){
+				if(tokens[i].charAt(0) == '|'){
+					//System.out.println("Numero negativo encontrado: var == " + tokens[i].substring(1));
 					aux = Interpretador.getVar(tokens[i].substring(1));
-					if(aux != null) comando += "-" + aux.getValor().toString();
+					if(aux != null){
+						comando += "|1 * ";
+						String tmp = aux.getValor().toString();
+						//System.out.println("TEMP NEG = " + tmp);
+						if(tmp != null){
+							tmp = tmp.replace('-', '|');
+							comando += tmp;
+							//System.out.println("No token " + i + "o comando é: " + comando);
+						}
+					}
 				}else{
 					aux = Interpretador.getVar(tokens[i]);
-					if(aux != null) comando += aux.getValor().toString();
+					if(aux != null){
+						String tmp = aux.getValor().toString();
+						//System.out.println("TEMP = " + tmp);
+						if(tmp != null){
+							tmp = tmp.replace('-', '|');
+							comando += tmp;
+							//System.out.println("No token " + i + "o comando é: " + comando);
+						}
+					}
 				}
 			}else comando += tokens[i];
 			if(i + 1 != tokens.length) comando += " ";
@@ -248,7 +270,7 @@ class Expressao{
             if(flag == 1){
                 if(x == '\\' && escape == 0) escape = 1;
                 else if(escape == 1){
-                    if(x == '\\' || x == '\"') System.out.print(x);
+                    if(x == '\\' || x == '\"' || x == '#') System.out.print(x);
                     else if(x == 'n') System.out.print("\n");
                     else System.out.print("\\" + x);
                     escape = 0;
@@ -401,10 +423,11 @@ class Expressao{
 	public Double calcula(){
 		String n = new String("");
 		int i;
+		//System.out.println("CALCULA -> " + comando);
 		if(qual() == 2)	n = shuntingYard(comando.indexOf('=') + 2); //Atribuição
 		else n = shuntingYard(0);
+		//System.out.println("DPS -> " + n);
 
-		//System.out.println("CALCULA -> " + n);
 
 		while(Simbolos.operadores(n) && (n.length() > 1 ? Simbolos.operadores(n.substring(1)) : true)){ //Enquanto há operadores
 			int x0ant = 0;

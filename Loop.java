@@ -29,13 +29,10 @@ class Loop{
         }
         System.out.println("~~~~~~");
         //System.out.println(aux1);*/
-        while(se.verificaCondicao() && x.interpreta(bloco) != 1){
-            //if( != 0){
-            //System.out.println("1");
-            //    erro = true;
-        //        break;
-    //        }
-            //System.out.println("OOI");
+        while(se.verificaCondicao()){
+            int ret = x.interpreta(bloco);
+            if(ret == 2) erro = true;
+            if(ret != 0) break;
             se = new If(condicao);
         }
 

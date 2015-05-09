@@ -17,14 +17,15 @@ class CLL{
             i++;
         }
 
-		VariavelDouble real = new VariavelDouble(13.2);
-		VariavelDouble inteiro = new VariavelDouble(11.1);
-		VariavelDouble inteiro1 = new VariavelDouble(0.0);
+		//VariavelDouble real = new VariavelDouble(13.2);
+		//VariavelDouble inteiro = new VariavelDouble(11.1);
+		//VariavelDouble inteiro1 = new VariavelDouble(0.0);
 		//Variavel<String> letras = new Variavel<String>("Oie");
 
-		b.interpreta(linhas);
+		if(f.getName().matches(".+\\.cll")) b.interpreta(linhas);
+		else System.out.println("Não é um arquivo .cll!\n");
 
-		real.setValor(real.getValor() + 1);
+		/*real.setValor(real.getValor() + 1);
 		Variavel aux;
 
 		Interpretador.novaVar("cacia", real);
@@ -33,7 +34,7 @@ class CLL{
 
 		aux = Interpretador.getVar("i");
 
-		System.out.println("i existe ? " + aux);
+		System.out.println("i existe ? " + aux);*/
 
 
 

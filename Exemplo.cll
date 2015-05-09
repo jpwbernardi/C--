@@ -12,6 +12,9 @@ loop((i * i) MENORI num){ #Enquanto compilar estou de boa
     }
     i = i + 1;
 }
+if(num MENORI 0){
+    flag = 1;
+}
 if(flag IGUAL 1){
     printa("Nao eh primo!\n"); #Outro teste
 }
