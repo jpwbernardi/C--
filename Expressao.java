@@ -31,7 +31,7 @@ class Expressao{
 		int i;
 		int flag = 1; //ultima quebra foi em um Simbolo ? 1 : 0
 
-		//Forma mais simples que achei de consertar valores negativos!!! (tentar melhorar)
+		//Forma mais simples que achei de consertar valores negativos!!!
 		for(i = 0; i < quebrado.length; i++){
 			if(aux == null) aux = new String("");
 			if(quebrado [i].equals("#")){
@@ -45,34 +45,27 @@ class Expressao{
 					if(Simbolos.pertence(aux) > 0) flag = 1;
 					aux = null;
 				}
-				//System.out.println("1");
 			}else if(Simbolos.pertence(quebrado[i]) > 0){
 				if(quebrado[i].equals("(") && aux.equals("-")){
 					sequencia.add("-1");
 					sequencia.add("*");
 					sequencia.add(quebrado[i]);
 					aux = null;
-					//System.out.println("2");
 				}else if(quebrado[i].equals("-") == false || flag == 0){
 					if(aux.equals("") == false) sequencia.add(aux);
 					sequencia.add(quebrado[i]);
 					aux = null;
-					//System.out.println("3");
 				}else{
 					if(aux.equals("") == false) sequencia.add(aux);
 					if(flag == 1) aux = new String(quebrado[i] + "");
-					//System.out.println("4");
 				}
 				if(quebrado[i].equals(")") == false && quebrado[i].equals(")") == false){
 					flag = 1;
-					//System.out.println("5");
 				}
 			}else if(quebrado[i].equals(" ") == false && quebrado[i].equals("	") == false){
 				aux += quebrado[i];
 				flag = 0;
-				//System.out.println("6");
 			}
-			//System.out.println("-> AUX  " + aux);
 		}
 
 		String[] t = new String[sequencia.size()];
@@ -83,36 +76,27 @@ class Expressao{
 
 	public void organiza(){
 		comando = new String("");
-		//System.out.println("TOKENS Organiza::  ");
-		//for(String x: tokens){
-		//	System.out.println(x);
-		//}
 		for(int i = 0; i < tokens.length; i++){
 			if(tokens[i].length() > 1 && tokens[i].charAt(0) == '-') tokens[i] = tokens[i].replace('-', '|');
 			if(toDouble(tokens[i]) == null && Simbolos.pertence(tokens[i]) < 0){ //Se não é numero nem simbolo (váriavel)
 				Variavel aux;
 				if(tokens[i].charAt(0) == '|'){
-					//System.out.println("Numero negativo encontrado: var == " + tokens[i].substring(1));
 					aux = Interpretador.getVar(tokens[i].substring(1));
 					if(aux != null){
 						comando += "|1 * ";
 						String tmp = aux.getValor().toString();
-						//System.out.println("TEMP NEG = " + tmp);
 						if(tmp != null){
 							tmp = tmp.replace('-', '|');
 							comando += tmp;
-							//System.out.println("No token " + i + "o comando é: " + comando);
 						}
 					}
 				}else{
 					aux = Interpretador.getVar(tokens[i]);
 					if(aux != null){
 						String tmp = aux.getValor().toString();
-						//System.out.println("TEMP = " + tmp);
 						if(tmp != null){
 							tmp = tmp.replace('-', '|');
 							comando += tmp;
-							//System.out.println("No token " + i + "o comando é: " + comando);
 						}
 					}
 				}
@@ -146,22 +130,8 @@ class Expressao{
 		int i = inic;
 		int j;
 
-		/*for(String x: a){
-			System.out.println(x);
-		}*/
-
 		for(j = inic + 1; j < tokens.length && !tokens[j].equals(")"); j++)
 			if (tokens[j].equals("(")) percorre(j);
-
-
-		//System.out.println("-> " + comando);
-		/*System.out.println("->>>>>>>>>>>>>iiii>>>>>>>>>>>>>>>>>>");
-		for(int b = 0; b < a.length; b++){
-			System.out.println(a[b]);
-		}
-
-		System.out.println("\n->>>>>>>>>>>>>>>>iiii>>>>>>>>>>>>>>>");
-		//System.out.println("Oioioioioioi");*/
 
 		if (resolve(i, j) > 0) return true;
 		else return false;
@@ -182,42 +152,21 @@ class Expressao{
 			t = new String("");
 			for(i = inic + 1; i < fim; i++) t += tokens[i] + " ";
 			t += " ;";	aux.set(t);
-
 			for(i = inic; i < fim; i++) tokens[i] = " ";
-
 			tokens[fim] = aux.calcula().toString();
-		//	t += aux.calcula().toString();
-		//	System.out.println("aux: " + aux.calcula().toString());
-		//	for(i = fim; i < tokens.length; i++) t += tokens[i] + " ";
-
-		//	System.out.println("t(set) = " + t);
-
 			return aux.calcula();
 
 		}else{  //Caso contrario, quebra a expressao na comparação e resolve independentemente
 			t = new String("");
 			for(j = inic + 1; j < i; j++) t += tokens[j] + " ";
 			t += " ;";	aux.set(t);
-		//	System.out.println("t1 = " + aux.comando);
 			t1 = aux.calcula();
-		//	System.out.println("aux1: " + t1);
-			//expressao[i - 1] = this.calcula(agrupa(expressao, inic + 1, i - 1)).toString();
 
 			t = new String("");
 			for(j++; j < fim; j++) t += tokens[j] + " ";
 			t += " ;";	aux.set(t);
-		//	System.out.println("t2 = " + aux.comando);
 			t2 = aux.calcula();
-
-		//	System.out.println("aux2: " + t2);
-			//expressao[i + 1] = this.calcula(agrupa(expressao, i + 1, fim - 1)).toString();
 		}
-
-		/*System.out.println("Aqui amigo :");
-		for(String x: expressao){
-			System.out.println(x);
-		}*/
-		//Transforma valores resultantes para double
 
 		//Apaga as expressões resolvidas
 		for(i = inic; i < fim; i++) tokens[i] = " ";
@@ -249,18 +198,16 @@ class Expressao{
 				break;
 		}
 
-		//System.out.println("Fim Aqui amigo");
+		//Transforma valor resultant para double
 		return toDouble(tokens[fim]);
 	}
 
 	private void printa(){
-        //System.out.println("Imprime: " + imprime);
         int flag = 0, escape = 0, i;
         String t = null, imprime = this.condicao();
-		//System.out.println("printa->" + imprime);
         for(i = 0; i < imprime.length(); i++){
             char x = imprime.charAt(i);
-            if(x == '\"'){
+            if(x == '\"' && (i - 1 < 0 || imprime.charAt(i - 1) != '\\')){
 				if(t != null) System.out.println(Interpretador.getVar(t));
 				t = null;
                 flag = (flag + 1) % 2;
@@ -270,7 +217,7 @@ class Expressao{
             if(flag == 1){
                 if(x == '\\' && escape == 0) escape = 1;
                 else if(escape == 1){
-                    if(x == '\\' || x == '\"' || x == '#') System.out.print(x);
+                    if(x == '\\' || x == '\"' || x == '#' || x == ';') System.out.print(x);
                     else if(x == 'n') System.out.print("\n");
                     else System.out.print("\\" + x);
                     escape = 0;

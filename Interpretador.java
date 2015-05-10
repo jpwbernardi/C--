@@ -62,14 +62,14 @@ class Interpretador{
 			s[i].replace('\n', '\0');
 			int inicio = 0, j;
 			for(j = 0; j < s[i].length(); j++){
-				if(s[i].charAt(j) == ';' || s[i].charAt(j) == '{' || s[i].charAt(j) == '}'){
+				if(((j - 1 < 0 || s[i].charAt(j - 1) != '\\') && s[i].charAt(j) == ';') || s[i].charAt(j) == '{' || s[i].charAt(j) == '}'){
 					codigo.add(s[i].substring(inicio, j + 1));
 					inicio = j + 1;
 				}else if(s[i].charAt(j) == '#' && (j - 1 < 0 || s[i].charAt(j - 1) != '\\')) break;
 			}
 			if(inicio < s[i].length()){
 				if(s[i + 1] != null) s[i + 1] = s[i].substring(inicio, j) + " " + s[i + 1];
-				else{
+				else if(s[i].charAt(j) != '#'){
 					erro = true;
 					System.out.println("Erro ao montar o código na linha: " + (i + 1));
 					break;

@@ -1,20 +1,35 @@
-i = 2;  #Outro teste
+
 printa("Digite um numero: ");
 scan(num); #teste
-flag = 0; #Teste de comentario
-loop((i * i) MENORI num){ #Enquanto compilar estou de boa
+flag = 0; #Essa declaração de variavel é totalmente desnecessaria
+i = 2;  #Atribuindo valor a i
+loop((i * i) MENORI num){
+
+#Sintaxe flexivel!
     if((num % i)
-        IGUAL 0){
 
 
+
+
+        IGUAL 0
+
+
+
+
+        ){
+#
+#
         flag = 1;
         break;
     }
     i = i + 1;
 }
-if(num MENORI 0){
+
+#Trata casos de valores negativos ou quanto é igual a 1
+if(num MENORI 1){
     flag = 1;
 }
+
 if(flag IGUAL 1){
     printa("Nao eh primo!\n"); #Outro teste
 }

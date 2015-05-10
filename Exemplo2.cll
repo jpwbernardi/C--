@@ -4,8 +4,17 @@ scan(a, b);
 #printa("bug?");
 resp = a + b;
 
-if(resp MENOR 2){
-    printa("Oioizinho " resp " E tambem "b "\n");
+if(resp MENOR 100){
+    printa("Duas variaveis aleatorias sem espaço entre elas: " wopa woompa " e os valores digitados: " a " " b "\n");
 }
 
-printa("\#resp = " resp "\n");
+#Demonstracao do continue
+loop(wopa MENOR 4){ #wopa começa em 0
+    wopa = wopa + 1;
+    printa("Antes do continue\n");
+    continue;
+    printa("Depois do continue\n");
+}
+
+printa("\#resp = " resp "\n\n");
+printa("\"Oi\"\#\;\n");
