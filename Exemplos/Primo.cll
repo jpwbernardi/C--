@@ -31,7 +31,7 @@ if(num MENORI 1){
 }
 
 if(flag IGUAL 1){
-    printa("Nao eh primo!\n"); #Outro teste
+    printa("Nao eh primo! Primeiro divisor encontrado: " i "\n"); #Outro teste
 }
 if(flag IGUAL 0){
     printa("eh primo!\n");

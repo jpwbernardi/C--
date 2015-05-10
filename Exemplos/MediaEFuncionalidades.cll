@@ -2,9 +2,9 @@
 printa("Digite dois numeros: ");
 scan(a, b);
 #printa("bug?");
-resp = a + b;
+resp = (a + b) / 2;
 
-if(resp MENOR 100){
+if((a + b) MENOR 100){
     printa("Duas variaveis aleatorias sem espaço entre elas: " wopa woompa " e os valores digitados: " a " " b "\n");
 }
 
@@ -16,5 +16,5 @@ loop(wopa MENOR 4){ #wopa começa em 0
     printa("Depois do continue\n");
 }
 
-printa("\#resp = " resp "\n\n");
+printa("\#media = " resp "\n\n");
 printa("\"Oi\"\#\;\n");

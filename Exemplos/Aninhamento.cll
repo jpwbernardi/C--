@@ -1,0 +1,21 @@
+i = 0;
+j = i;
+
+loop(i MENOR 3){
+    if(i IGUAL 0){
+        printa("Zero\n");
+    }
+    if(i DIF 0){
+        printa("Outro\n");
+    }
+    i = i + 1;
+}
+
+if(i IGUAL 3){
+    if(j IGUAL 0){
+        printa("OK!\n");
+    }
+    if(j DIF 0){
+        printa("Erro!\n");
+    }
+}

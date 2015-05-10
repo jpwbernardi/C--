@@ -1,0 +1,13 @@
+scan(a);
+
+if( a MAIOR 1 ){
+    printa("MAIOR\n");
+}
+
+if( a MENOR 1 ){
+    printa("MENOR\n")
+}
+
+if( a IGUAL 1){
+    printa("IGUAL\n");
+}
