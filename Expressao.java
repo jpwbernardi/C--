@@ -235,16 +235,6 @@ class Expressao{
 
                 if(t == null) t = new String("");
 				t += x;
-                /*for(j = i;imprime.charAt(j) != ('\"') && imprime.charAt(j) != ')' && j < imprime.length(); j++){
-                    if(imprime.charAt(j) == ' ' && primeiro != 1){
-                        System.out.print(Interpretador.getVar(t));
-                        primeiro = 1;
-                    }else{
-                        if(imprime.charAt(j) != ' ' && imprime.charAt(j) != '	') t += imprime.charAt(j) + " ";
-                        primeiro = 0;
-                    }
-                }
-				i = j;*/
             }
         }
 		if(t != null) System.out.println(Interpretador.getVar(t));
@@ -315,66 +305,16 @@ class Expressao{
 			}else{
                 return null;
             }
-            //System.out.println("toDouble i: " + i + "      ret: " + ret);
 		}
 		return ret;
     }
-
-    /*public String agrupa(String[] a, int ini, int fim){
-		//System.out.println("Oi");
-        String ret = new String("");
-        //Interpretador b = new Interpretador(false);
-		Variavel aux;
-        for(int i = ini; i <= fim; i++){
-			//System.out.println("1");
-			if(a[i].equals(" ")){
-				//System.out.println("2");
-				ini++;
-				continue;
-			}
-			if(i > ini) ret += " ";
-			//System.out.println("3");
-			if(a[i].charAt(0) == '-' && a[i].length() > 1){
-				//System.out.println("4");
-				aux = Interpretador.getVar(a[i].substring(1));
-				//System.out.println("aux = " + aux.getValor().toString());
-				if(aux != null){
-					//System.out.println("5");
-					ret += "-" + aux.getValor().toString();
-				}else{
-					//System.out.println("6");
-					a[i] = a[i].replace('-', '|');
-					ret +=  a[i];
-				}
-			}else{
-				//System.out.println("7");
-				//System.out.println("Lalau = {" + a[i] + "}");
-				aux = Interpretador.getVar(a[i]);
-				//System.out.println("Olazinho");
-				//System.out.println("lalau existe ? " + aux.getValor());
-				if(aux != null){
-					//System.out.println("8");
-					ret += aux.getValor().toString();
-				}else{
-					//System.out.println("9");
-					ret += a[i];
-				}
-			}
-
-		}
-		//System.out.println(ret);
-        return ret;
-    }*/
 
 	//----------- Expressões Aritméticas
 	public Double calcula(){
 		String n = new String("");
 		int i;
-		//System.out.println("CALCULA -> " + comando);
 		if(qual() == 2)	n = shuntingYard(comando.indexOf('=') + 2); //Atribuição
 		else n = shuntingYard(0);
-		//System.out.println("DPS -> " + n);
-
 
 		while(Simbolos.operadores(n) && (n.length() > 1 ? Simbolos.operadores(n.substring(1)) : true)){ //Enquanto há operadores
 			int x0ant = 0;
@@ -422,9 +362,7 @@ class Expressao{
 					aux = Math.pow(aux, aux2);
 					break;
 				case '%':
-					//System.out.println("mod :   " + aux + "    " + aux2);
 					aux %= aux2;
-					//System.out.println("resp :   " + aux);
 			}
 			if(i + 1 < n.length()) i++;
 
@@ -436,11 +374,4 @@ class Expressao{
 
 		return toDouble(n);
 	}
-
-	//-------------    Expressões booleanas
-
-	/*
-
-	*/
-
 }

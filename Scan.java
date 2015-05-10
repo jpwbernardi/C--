@@ -9,9 +9,6 @@ class Scan{
         erro = false;
         entrada = new Scanner(System.in);
         variaveis = new ArrayList<String>();
-        //for(String x: vars.tokens){
-        ///    System.out.println(x);
-        //}
         for(int i = 2; i < vars.tokens.length; i++){
             if(vars.tokens[i].equals(",") || vars.tokens[i].equals(")")){
                 if(vars.tokens[i - 1].matches("([a-z]+\\d*)+")){
@@ -28,7 +25,6 @@ class Scan{
         for(int i = 0; i < variaveis.size(); i++){
             VariavelDouble aux = new VariavelDouble(entrada.nextDouble());
             Interpretador.novaVar(variaveis.get(i), aux);
-            //System.out.println("Valor lido: " + aux);
         }
     }
 }
