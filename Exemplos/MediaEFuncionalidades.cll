@@ -5,7 +5,10 @@ scan(a, b);
 resp = (a + b) / 2;
 
 if((a + b) MENOR 100){
-    printa("Duas variaveis aleatorias sem espaço entre elas: " wopa woompa " e os valores digitados: " a " " b "\n");
+    #Mostrar como mostrar variaveis e strings no printa.
+    printa("Duas variaveis aleatorias sem espaço entre elas: "  wopa     woompa " e os valores digitados: " a " " b "\n");
+    #Note que as variaveis wopa e woompa não foram declaradas. Não existe declaração de variavel na linguagem, toda variavel
+    #que não foi atribuida, tem valor 0.
 }
 
 #Demonstracao do continue
@@ -13,8 +16,8 @@ loop(wopa MENOR 4){ #wopa começa em 0
     wopa = wopa + 1;
     printa("Antes do continue\n");
     continue;
-    printa("Depois do continue\n");
+    printa("Depois do continue\n"); #Nunca vai printar essa linha por causa do continue!
 }
 
 printa("\#media = " resp "\n\n");
-printa("\"Oi\"\#\;\n");
+printa("\"Oi\"\#\;\n"); #Para demonstrar como printar simbolos especiais. Saida esperada: "Oi"#;
