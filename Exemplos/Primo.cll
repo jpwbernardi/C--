@@ -1,14 +1,14 @@
 
 printa("Digite um numero: ");
-scan(num); #teste
-flag = 0; #Essa declaração de variavel é totalmente desnecessaria
+scan(num); #Lê numero
 i = 2;  #Atribuindo valor a i
+
 loop((i * i) MENORI num){
 
 #Sintaxe flexivel!
     if((num % i)
 
-
+#Comentario :P
 
 
         IGUAL 0
@@ -17,22 +17,24 @@ loop((i * i) MENORI num){
 
 
         ){
+#O interpretador vai ler as linhas acima como if((num % i)) IGUAL 0){, ignorando o comentário
 #
-#
-        flag = 1;
+        flag = 1; #Note que flag não foi declarada!! A linguagem C-- não necessita de declaração de variavel!
         break;
     }
     i = i + 1;
 }
 
 #Trata casos de valores negativos ou quanto é igual a 1
-if(num MENORI 1){
+if(num MENORI 1){ #Mesmo sendo só uma linha de comando é necessário abrir e fechar chaves!
     flag = 1;
 }
 
 if(flag IGUAL 1){
-    printa("Nao eh primo! Primeiro divisor encontrado: " i "\n"); #Outro teste
+    printa("Nao eh primo!\n"); #Outro teste
 }
-if(flag IGUAL 0){
+
+#Não tem else :(
+if(flag IGUAL 0){ #Toda variavel que não foi atribuida tem valor 0!
     printa("eh primo!\n");
 }
