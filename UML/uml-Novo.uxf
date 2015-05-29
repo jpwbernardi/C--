@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="13.2">
+  <zoom_level>7</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>455</x>
+      <y>322</y>
+      <w>231</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>Interpretador
+--
++ String linhas[];
++ boolean funcao;
++ boolean erro;
+--
++ Interpretador(boolean flag);
++ static void novaVar(String nome, Variavel valor);
++ static Variavel getVar(String n);
++ void atribuirValor();
++ int fimEscopo(int i);
+- String[] montaCodigo(String[] s);
++ int interpreta(String l[]);</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>679</x>
+      <y>322</y>
+      <w>133</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>+ se
+lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;20.0;170.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>798</x>
+      <y>315</y>
+      <w>147</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>If
+--
+--
++ If(String cond);
++ boolean verificaCondicao();</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>798</x>
+      <y>399</y>
+      <w>147</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>Loop
+--
++ String condicao;
++ String[] bloco;
++ boolean erro;
+--
++ Loop(String[] b, String cond);
++ void executa();</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>861</x>
+      <y>357</y>
+      <w>35</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>+ se
+lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>679</x>
+      <y>406</y>
+      <w>133</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>+ laco
+lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;20.0;170.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>665</x>
+      <y>42</y>
+      <w>154</w>
+      <h>182</h>
+    </coordinates>
+    <panel_attributes>Expressao
+--
++ String comando;
++ String[] tokens;
+--
++ Expressao(String s);
++ void set(String s);
++ String[] divide();
++ void organiza();
++ int qual();
++ String condicao();
++ boolean percorre(int inic);
++ double resolve(int inic, int fim);
++ void printa();
+- String shuntingYard(int ini);
+- Double toDouble(String n);
++ Double calcula();</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>672</x>
+      <y>217</y>
+      <w>70</w>
+      <h>119</h>
+    </coordinates>
+    <panel_attributes>+ expressao
+lt=&lt;&lt;&lt;&lt;-
+</panel_attributes>
+    <additional_attributes>10.0;150.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>805</x>
+      <y>217</y>
+      <w>70</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>+ condicao
+lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;140.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>238</x>
+      <y>322</y>
+      <w>147</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>Scan
+--
++ Scanner entrada;
++ ArrayList&lt;String&gt; variaveis;
++ boolean erro;
+--
++ Scan(Expressao vars);
++ void le();
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>224</x>
+      <y>427</y>
+      <w>175</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>Simbolos
+--
++ static int pertence(String n);
++ static boolean operadores(String n);</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>497</x>
+      <y>525</y>
+      <w>147</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>Variavel&lt;Tipo&gt;
+--
++ Tipo valor;
+--
++ Variavel(Tipo valor);
++ Tipo getValor();
++ String toString();
++ void setValor(Tipo valor);</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>560</x>
+      <y>602</y>
+      <w>21</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>469</x>
+      <y>658</y>
+      <w>203</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>VariavelDouble extends Variavel&lt;Double&gt;
+--
+--
++ VariavelDouble(Double valor);</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>560</x>
+      <y>455</y>
+      <w>196</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>+ static HashMap&lt;String, Variavel&gt; vars
+lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+</diagram>
