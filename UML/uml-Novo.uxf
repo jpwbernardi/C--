@@ -36,7 +36,7 @@
 --
 --
 + void setValor(Object valor);
-+ Variavel getValor();
++ Object getValor();
 + void toString();
 </panel_attributes>
     <additional_attributes/>
@@ -54,7 +54,7 @@
 - Double valor;
 --
 + void setValor(Object valor);
-+ Variavel getValor();
++ Object getValor();
 + void toString();</panel_attributes>
     <additional_attributes/>
   </element>
@@ -71,7 +71,7 @@
 - String valor;
 --
 + void setValor(Object valor);
-+ Variavel getValor();
++ Object getValor();
 + void toString();</panel_attributes>
     <additional_attributes/>
   </element>
@@ -111,8 +111,8 @@
 --
 + Vetor(int tam);
 + void setValor(Object valor);
-+ Variavel getValor();
-+ Variavel getValor(int i);
++ Object getValor();
++ Object getValor(int i);
 + void toString();</panel_attributes>
     <additional_attributes/>
   </element>
